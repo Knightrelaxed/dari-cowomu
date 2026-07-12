@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (GUARANTEED ANDROID CHROME & iOS COMPATIBLE CANVAS) ---
+  // --- STATE 4: THE NIGHT SKY (5 TAPS PER STAR MINI-GAME) ---
   const skyCanvas = document.getElementById('sky-canvas');
   const starsStage = document.getElementById('stars-stage');
   let skyCtx = null;
@@ -414,7 +414,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let skyStars = [];
   let constellationNodes = [];
   let shootingStars = [];
+  let tapSparkles = [];
   let skyAnimId = null;
+  let skyTapCount = 0; // 5 taps per star node (15 total for 3 stars)
 
   function initSkyCanvas() {
     if (!skyCanvas) return;
@@ -492,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Draw constellation nodes (glowing gold stars)
     for (let n of constellationNodes) {
       n.pulse = (n.pulse || 0) + 0.06;
-      const glowR = 12 + Math.sin(n.pulse) * 3;
+      const glowR = 13 + Math.sin(n.pulse) * 3;
 
       const grad = skyCtx.createRadialGradient(n.x, n.y, 2, n.x, n.y, glowR);
       grad.addColorStop(0, 'rgba(244, 211, 94, 1)');
@@ -510,7 +512,25 @@ document.addEventListener('DOMContentLoaded', () => {
       skyCtx.fill();
     }
 
-    // 4. Draw falling shooting stars (DOWNWARDS diagonally)
+    // 4. Draw touch burst sparkles
+    for (let i = tapSparkles.length - 1; i >= 0; i--) {
+      const sp = tapSparkles[i];
+      sp.x += sp.vx;
+      sp.y += sp.vy;
+      sp.alpha -= 0.035;
+
+      if (sp.alpha <= 0) {
+        tapSparkles.splice(i, 1);
+        continue;
+      }
+
+      skyCtx.fillStyle = `rgba(${sp.color}, ${sp.alpha})`;
+      skyCtx.beginPath();
+      skyCtx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+      skyCtx.fill();
+    }
+
+    // 5. Draw falling shooting stars (DOWNWARDS diagonally)
     for (let i = shootingStars.length - 1; i >= 0; i--) {
       const sh = shootingStars[i];
       sh.x += sh.vx;
@@ -550,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleSkyTap(e) {
     if (!skyCanvas) return;
     const now = performance.now();
-    if (now - lastTapTime < 180) return; // Debounce Android double touch/click events
+    if (now - lastTapTime < 140) return; // Debounce Android/iOS multi-trigger
     lastTapTime = now;
 
     const stage = document.getElementById('stars-stage');
@@ -575,6 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
       skyTouchPrompt.style.opacity = '0';
     }
 
+    // 1. Every tap launches a shooting star downwards
     shootingStars.push({
       x: x,
       y: y,
@@ -583,18 +604,58 @@ document.addEventListener('DOMContentLoaded', () => {
       alpha: 1.0
     });
 
-    constellationNodes.push({ x, y, pulse: 0 });
-
-    if (starCountNum) {
-      starCountNum.textContent = `${Math.min(3, constellationNodes.length)} / 3`;
+    // 2. Spawn playful sparkles at touch point
+    for (let i = 0; i < 10; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 2.5 + 0.5;
+      tapSparkles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        r: Math.random() * 2 + 1,
+        alpha: 1.0,
+        color: Math.random() < 0.5 ? '244, 211, 94' : '72, 202, 228'
+      });
     }
 
-    if (constellationNodes.length >= 3 && constellationStatusText) {
-      constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Kita Terhubung Sempurna!`;
-      constellationStatusText.style.color = 'var(--accent-gold)';
-    }
+    // 3. Increment tap counter & evaluate 5-tap rule
+    if (constellationNodes.length < 3) {
+      skyTapCount++;
 
-    if (navigator.vibrate) navigator.vibrate(15);
+      if (skyTapCount % 5 === 0) {
+        // Form a permanent constellation star point!
+        constellationNodes.push({ x, y, pulse: 0 });
+        if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+
+        if (starCountNum) {
+          starCountNum.textContent = `⭐ ${constellationNodes.length} / 3`;
+        }
+
+        if (constellationNodes.length === 1 && constellationStatusText) {
+          constellationStatusText.innerHTML = `🌟 Bintang ke-1 Bersinar! Sentuh 5x lagi untuk Bintang ke-2`;
+          constellationStatusText.style.color = 'var(--accent-gold)';
+        } else if (constellationNodes.length === 2 && constellationStatusText) {
+          constellationStatusText.innerHTML = `🌟 Bintang ke-2 Terhubung! Sentuh 5x lagi untuk Bintang ke-3`;
+          constellationStatusText.style.color = 'var(--accent-gold)';
+        } else if (constellationNodes.length === 3 && constellationStatusText) {
+          constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Kita Terhubung Sempurna!`;
+          constellationStatusText.style.color = 'var(--accent-gold)';
+        }
+      } else {
+        // Progress toward next star
+        const remaining = 5 - (skyTapCount % 5);
+        const nextStarNumber = constellationNodes.length + 1;
+        if (constellationStatusText) {
+          constellationStatusText.innerHTML = `💫 ${remaining} sentuhan lagi untuk membentuk Bintang ke-${nextStarNumber}...`;
+          constellationStatusText.style.color = 'var(--primary)';
+        }
+        if (navigator.vibrate) navigator.vibrate(12);
+      }
+    } else {
+      // Extra celebratory taps after constellation is finished
+      if (navigator.vibrate) navigator.vibrate(12);
+    }
   }
 
   const targets = [starsStage, skyCanvas].filter(Boolean);
@@ -646,9 +707,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btnReplay.addEventListener('click', () => {
       constellationNodes = [];
       shootingStars = [];
-      if (starCountNum) starCountNum.textContent = '0 / 3';
+      tapSparkles = [];
+      skyTapCount = 0;
+      if (starCountNum) starCountNum.textContent = '⭐ 0 / 3';
       if (constellationStatusText) {
-        constellationStatusText.textContent = '✨ Sentuh langit 3x untuk merangkai rasi kita';
+        constellationStatusText.textContent = '✨ Sentuh langit 5x untuk membentuk Bintang Pertama';
         constellationStatusText.style.color = 'var(--text-main)';
       }
       if (skyTouchPrompt) {
