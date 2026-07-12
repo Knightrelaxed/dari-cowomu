@@ -718,11 +718,6 @@ body {
   box-shadow: 0 0 25px rgba(244, 211, 94, 0.3);
 }
 
-.coupon-card.deluxe .coupon-inner {
-  border-color: rgba(255, 139, 167, 0.4);
-  background: linear-gradient(135deg, rgba(30, 20, 50, 0.78), rgba(16, 25, 52, 0.82));
-}
-
 .coupon-top {
   display: flex;
   justify-content: space-between;
@@ -739,11 +734,6 @@ body {
   background: rgba(244, 211, 94, 0.12);
   padding: 3px 8px;
   border-radius: 6px;
-}
-
-.deluxe-badge {
-  color: var(--accent-rose);
-  background: rgba(255, 139, 167, 0.15);
 }
 
 .coupon-icon {
@@ -774,10 +764,6 @@ body {
   gap: 4px;
 }
 
-.coupon-card.deluxe .coupon-cta {
-  color: var(--accent-rose);
-}
-
 .coupon-feedback {
   margin-top: 0.7rem;
   font-size: 0.82rem;
@@ -785,7 +771,7 @@ body {
 }
 
 /* ==========================================================================
-   STATE 4: THE NIGHT SKY
+   STATE 4: THE NIGHT SKY (HIGHLY OBVIOUS & INTERACTIVE STAR STAGE)
    ========================================================================== */
 .selected-coupon-display {
   width: 100%;
@@ -794,7 +780,7 @@ body {
   border: 1px solid rgba(244, 211, 94, 0.35);
   border-radius: 16px;
   padding: 0.85rem 1.1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
   text-align: left;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -835,62 +821,107 @@ body {
   border-radius: 4px;
 }
 
+/* Interactive Star Stage Box */
 .stars-interaction-stage {
   position: relative;
   width: 100%;
   max-width: 400px;
-  height: 165px;
-  border-radius: 20px;
-  background: radial-gradient(circle at 50% 50%, rgba(26, 45, 95, 0.6) 0%, rgba(8, 14, 36, 0.85) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  min-height: 200px;
+  border-radius: 22px;
+  background: 
+    radial-gradient(circle at 50% 25%, rgba(72, 202, 228, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(30, 45, 95, 0.85) 0%, rgba(8, 14, 36, 0.96) 100%);
+  border: 2px solid rgba(72, 202, 228, 0.45);
+  box-shadow: 
+    0 0 25px rgba(72, 202, 228, 0.18),
+    inset 0 0 40px rgba(0, 0, 0, 0.8);
   cursor: pointer;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.65);
+  justify-content: space-between;
+  padding: 14px;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.stars-interaction-stage:active {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 35px rgba(244, 211, 94, 0.35), inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.stars-stage-header {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.stars-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  background: rgba(244, 211, 94, 0.15);
+  border: 1px solid rgba(244, 211, 94, 0.3);
+  padding: 4px 12px;
+  border-radius: 99px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* Pulsing Prompt Inside Star Stage */
+.constellation-prompt {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(4, 10, 26, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 10px 18px;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #FFF;
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  animation: promptGlow 2.5s infinite alternate;
+}
+
+@keyframes promptGlow {
+  0% { transform: scale(1); border-color: rgba(72, 202, 228, 0.4); }
+  100% { transform: scale(1.03); border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(244, 211, 94, 0.3); }
 }
 
 .constellation-counter {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.7rem;
-  color: var(--accent-gold);
-  background: rgba(0, 0, 0, 0.6);
+  z-index: 3;
+  background: rgba(4, 8, 20, 0.85);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 99px;
-  border: 1px solid rgba(244, 211, 94, 0.28);
-  pointer-events: none;
-}
-
-.stars-hint {
-  margin-bottom: 10px;
-  background: rgba(4, 8, 20, 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  padding: 5px 12px;
-  border-radius: 99px;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
   pointer-events: none;
+  border: 1px solid var(--border-glass);
+}
+
+.constellation-counter strong {
+  color: var(--accent-gold);
 }
 
 .constellation-star {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--accent-gold);
-  box-shadow: 0 0 12px 3px var(--accent-gold);
+  box-shadow: 0 0 14px 4px var(--accent-gold);
   transform: translate(-50%, -50%);
   pointer-events: none;
   animation: starSpawn 0.4s var(--ease-bounce);
+  z-index: 4;
 }
 
 @keyframes starSpawn {
@@ -916,6 +947,7 @@ body {
   box-shadow: 0 0 10px 2px #FFF, 0 0 20px 4px var(--primary);
   pointer-events: none;
   animation: shoot 0.9s ease-out forwards;
+  z-index: 3;
 }
 
 .shooting-star::after {

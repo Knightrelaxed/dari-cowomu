@@ -397,7 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- STATE 4: THE NIGHT SKY ---
   const starsStage = document.getElementById('stars-stage');
-  const constellationCounter = document.getElementById('constellation-counter');
+  const constellationPrompt = document.getElementById('constellation-prompt');
+  const starCountNum = document.getElementById('star-count-num');
   let constellationPoints = [];
 
   if (starsStage) {
@@ -426,12 +427,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     constellationPoints.push({ x, y });
 
+    if (starCountNum) {
+      starCountNum.textContent = Math.min(3, constellationPoints.length);
+    }
+
     if (constellationPoints.length > 1) {
       drawConstellationLines();
     }
 
-    if (constellationPoints.length >= 3 && constellationCounter) {
-      constellationCounter.innerHTML = `<span>💖 Rasi Bintang Cinta Kita Terhubung!</span>`;
+    if (constellationPoints.length >= 3 && constellationPrompt) {
+      constellationPrompt.innerHTML = `<span>💖 Rasi Bintang Cinta Kita Telah Terhubung Sempurna!</span>`;
+      constellationPrompt.style.background = 'linear-gradient(135deg, rgba(244, 211, 94, 0.25), rgba(255, 139, 167, 0.25))';
+      constellationPrompt.style.borderColor = 'var(--accent-gold)';
     }
 
     if (navigator.vibrate) navigator.vibrate(15);
