@@ -274,15 +274,15 @@
           </div>
         </div>
 
-        <!-- Top status bar outside the canvas so it never blocks the star lines -->
+        <!-- Top status bar ABOVE the canvas so it NEVER blocks the canvas -->
         <div class="sky-status-bar">
           <span id="constellation-status-text">✨ Sentuh langit 3x untuk merangkai rasi kita</span>
           <span class="star-count-badge" id="star-count-num">0 / 3</span>
         </div>
 
-        <!-- Completely UNOBSTRUCTED Interactive Night Sky Stage -->
-        <div class="stars-interaction-stage" id="stars-stage" role="button" aria-label="Sentuh di sini untuk merangkai rasi bintang">
-          <!-- Background faint celestial stars inside canvas -->
+        <!-- Real HTML5 Canvas for Interactive Night Sky Stage -->
+        <div class="stars-interaction-stage" id="stars-stage">
+          <canvas id="sky-canvas"></canvas>
         </div>
 
         <!-- Sweet Star Quote Generator -->
