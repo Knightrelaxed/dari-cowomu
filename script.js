@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSendWa = document.getElementById('btn-send-wa');
   if (btnSendWa) {
     btnSendWa.addEventListener('click', () => {
-      const message = `Halo sayang, aku udah baca surat permintaan maafmu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}* (${selectedCoupon.code})\n📝 "${selectedCoupon.desc}"\n\nmakaciihh ya tayaang.. udah mau minta maap dengan tulus dan janji bakal lebih peka lagi juga inisiatif bujuk aku pas ngambek lho yaa😁.. aku cayaangg kamuu😚😚`;
+      const message = `Haloo tayaaangg, aku udah baca surat permintaan maafmu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}* (${selectedCoupon.code})\n📝 "${selectedCoupon.desc}"\n\nmakaciihh ya tayaang.. udah mau minta maap dengan tulus dan janji bakal lebih peka lagi juga inisiatif bujuk aku pas ngambek lho yaa😁.. aku cayaangg kamuu😚😚`;
       
       const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
