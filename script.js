@@ -115,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const inhaleQuotes = [
     '"Tarik napas perlahan... kamu aman di sini..."',
     '"Aku di sini menemani setiap detak napasmu..."',
-    '"Satu napas lagi, sayangku yang paling berharga..."'
+    '"Satu napas lagi, lepaskan semua sesak di dadamu..."'
   ];
   const exhaleQuotes = [
-    '"Hembuskan rasa sakit dan cemasmu pelan-pelan..."',
+    '"Hembuskan rasa cemas dan overthinkingmu pelan-pelan..."',
     '"Biar aku yang memeluk erat semua bebanmu malam ini..."',
     '"Rileks... kamu berhak tenang dan bahagia..."'
   ];
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
       breatheOrb.classList.add('exhaling');
       const secondsLeft = Math.ceil((CYCLE_TOTAL_MS - phaseElapsed) / 1000);
       phaseLabel.textContent = 'Hembuskan...';
-      breatheInstruction.textContent = `Lepaskan sakitnya (${secondsLeft}s)`;
+      breatheInstruction.textContent = `Lepaskan cemasmu (${secondsLeft}s)`;
       if (quoteText && exhaleQuotes[cycleIdx]) quoteText.textContent = exhaleQuotes[cycleIdx];
     }
 
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isPressing = false;
       breatheOrb.classList.remove('inhaling', 'exhaling');
       phaseLabel.textContent = 'Tenang & Rileks';
-      breatheInstruction.textContent = 'Tubuhmu sudah rileks 💖';
+      breatheInstruction.textContent = 'Pikiranmu sudah lebih rileks 💖';
       if (quoteText) quoteText.textContent = '"Terima kasih sudah bertahan, sayangku."';
       if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
 
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const msgs = [
       'Bagus sekali sayang, rasakan napasmu tenang...',
-      'Satu siklus lagi, lepaskan semua ketegangan di perutmu...',
+      'Satu siklus lagi, lepaskan semua cemas dan overthinking di kepalamu...',
       'Sempurna sayangku... Bersiap melihat suratmu ✨'
     ];
     if (cycleStatusText && msgs[num - 1]) {
@@ -375,6 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
       selectedCoupon.desc = card.getAttribute('data-desc');
 
       if (couponFeedback) {
+        function escapeHTML(str) {
+          if (!str) return '';
+          return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+        }
         couponFeedback.innerHTML = `<p style="color: var(--primary);">Kupon terpilih: <strong>${escapeHTML(selectedCoupon.title)}</strong> ✨</p>`;
       }
 
@@ -481,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '"Kamu adalah satu-satunya rumah terindah untuk pulang."',
     '"Aku janji akan lebih peka dan selalu ada saat kamu butuh."',
     '"Senyummu selalu jadi penyemangat terbesarku setiap hari."',
-    '"Nyeri perutmu biar aku yang doain hilang malam ini ya sayangku."',
+    '"Semoga semua gelisah di kepalamu berubah jadi ketenangan malam ini, sayangku."',
     '"Kamu perempuan terkuat, tercantik, dan paling berharga buatku."'
   ];
 
@@ -500,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSendWa = document.getElementById('btn-send-wa');
   if (btnSendWa) {
     btnSendWa.addEventListener('click', () => {
-      const message = `Halo sayang, aku udah buka web permintaan maaf dari kamu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah peduli sama perutku dan pikiranku malam ini. Aku sayang kamu!`;
+      const message = `Halo sayang, aku udah buka web permintaan maaf dari kamu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah selalu peduli dan nenangin pikiranku malam ini. Aku sayang kamu!`;
       
       const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
