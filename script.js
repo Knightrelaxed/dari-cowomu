@@ -121,14 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const CIRCUMFERENCE = 465;
 
   const inhaleQuotes = [
-    '"Tarik napas perlahan... kamu aman di sini..."',
-    '"Aku di sini menemani setiap detak napasmu..."',
+    '"Tarik napas perlahan... Nurul Azizah aman di sini..."',
+    '"Aku di sini menemani setiap detak napasmu sayang..."',
     '"Satu napas lagi, lepaskan semua sesak di dadamu..."'
   ];
   const exhaleQuotes = [
     '"Hembuskan rasa cemas dan kesalmu pelan-pelan..."',
-    '"Biar aku yang memeluk erat dan bujuk kamu malam ini..."',
-    '"Rileks... kamu berhak tenang dan bahagia..."'
+    '"Biar aku yang memeluk erat dan bujuk Nurul Azizah malam ini..."',
+    '"Rileks... Nurul Azizah berhak tenang dan bahagia..."'
   ];
 
   function startBreathing(e) {
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
       breatheOrb.classList.remove('inhaling', 'exhaling');
       phaseLabel.textContent = 'Tenang & Rileks';
       breatheInstruction.textContent = 'Pikiranmu sudah lebih rileks 💖';
-      if (quoteText) quoteText.textContent = '"Terima kasih sudah bertahan, sayangku."';
+      if (quoteText) quoteText.textContent = '"Terima kasih sudah bertahan, Nurul Azizah sayangku."';
       if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
 
       setTimeout(() => {
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgs = [
       'Bagus sekali sayang, rasakan napasmu tenang...',
       'Satu siklus lagi, lepaskan semua cemas dan overthinking di kepalamu...',
-      'Sempurna sayangku... Bersiap melihat suratmu ✨'
+      'Sempurna Nurul Azizah sayangku... Bersiap melihat suratmu ✨'
     ];
     if (cycleStatusText && msgs[num - 1]) {
       cycleStatusText.textContent = msgs[num - 1];
@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (constellationNodes.length >= 3 && constellationStatusText) {
-      constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Terhubung Sempurna!`;
+      constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Kita Terhubung Sempurna, Nurul Azizah!`;
       constellationStatusText.style.color = 'var(--accent-gold)';
     }
 
@@ -601,11 +601,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnPickStar = document.getElementById('btn-pick-star');
   const starWishOutput = document.getElementById('star-wish-output');
   const romanticWishes = [
-    '"Maafin aku yang kurang inisiatif ya sayang, aku janji bakal lebih peka."',
-    '"Mulai sekarang, tiap kamu ngambek, aku yang akan pertama datang buat bujuk kamu."',
-    '"Kamu adalah satu-satunya rumah terindah untuk pulang."',
-    '"Senyummu selalu jadi penyemangat terbesarku setiap hari."',
-    '"Kamu berhak dapet perhatian penuh dan kelembutan dariku setiap hari."'
+    '"Maafin aku yang kurang inisiatif ya Nurul Azizah sayang, aku janji bakal lebih peka."',
+    '"Mulai sekarang, tiap kamu ngambek, aku yang akan pertama datang buat bujuk Nurul Azizah."',
+    '"Nurul Azizah adalah satu-satunya rumah terindah untuk pulang."',
+    '"Senyum Nurul Azizah selalu jadi penyemangat terbesarku setiap hari."',
+    '"Nurul Azizah berhak dapet perhatian penuh dan kelembutan dariku setiap hari."'
   ];
 
   if (btnPickStar && starWishOutput) {
@@ -623,7 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSendWa = document.getElementById('btn-send-wa');
   if (btnSendWa) {
     btnSendWa.addEventListener('click', () => {
-      const message = `Halo sayang, aku udah baca surat permintaan maafmu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah mau minta maaf dan janji bakal lebih peka & inisiatif bujuk aku pas ngambek. Aku sayang kamu!`;
+      const message = `Halo sayang, aku Nurul Azizah udah baca surat permintaan maafmu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah mau minta maaf dengan tulus dan janji bakal lebih peka & inisiatif bujuk aku pas ngambek. Aku sayang kamu!`;
       
       const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
