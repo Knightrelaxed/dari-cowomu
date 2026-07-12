@@ -16,6 +16,56 @@ document.addEventListener('DOMContentLoaded', () => {
     desc: 'Buatin aku surat panjang buat dibaca pas aman & kangen'
   };
 
+  // --- ROMANTIC BACKGROUND AUDIO ---
+  const bgMusic = document.getElementById('bg-music');
+  const btnMusic = document.getElementById('btn-music');
+  const musicIcon = document.getElementById('music-icon');
+  const musicLabel = document.getElementById('music-label');
+  let isMusicPlaying = false;
+  let hasUserInteracted = false;
+
+  function updateMusicUI() {
+    if (!btnMusic) return;
+    if (isMusicPlaying) {
+      btnMusic.classList.add('playing');
+      if (musicIcon) musicIcon.textContent = '🎵';
+      if (musicLabel) musicLabel.textContent = 'On';
+    } else {
+      btnMusic.classList.remove('playing');
+      if (musicIcon) musicIcon.textContent = '🔇';
+      if (musicLabel) musicLabel.textContent = 'Off';
+    }
+  }
+
+  function startMusicOnInteraction() {
+    if (!bgMusic || hasUserInteracted) return;
+    bgMusic.volume = 0.75;
+    bgMusic.play().then(() => {
+      hasUserInteracted = true;
+      isMusicPlaying = true;
+      updateMusicUI();
+    }).catch(() => {});
+  }
+
+  if (bgMusic && btnMusic) {
+    window.addEventListener('click', startMusicOnInteraction, { once: true });
+    window.addEventListener('touchstart', startMusicOnInteraction, { once: true });
+
+    btnMusic.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hasUserInteracted = true;
+      if (isMusicPlaying) {
+        bgMusic.pause();
+        isMusicPlaying = false;
+      } else {
+        bgMusic.volume = 0.75;
+        bgMusic.play().catch(console.error);
+        isMusicPlaying = true;
+      }
+      updateMusicUI();
+    });
+  }
+
   // --- AMBIENT COSMIC BACKGROUND CANVAS (Retina DPI Optimized) ---
   const ambientCanvas = document.getElementById('ambient-canvas');
   const ambientCtx = ambientCanvas.getContext('2d');

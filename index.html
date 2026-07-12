@@ -21,10 +21,13 @@
     rel="stylesheet">
 
   <!-- Cache Buster for Android Chrome & iOS Safari -->
-  <link rel="stylesheet" href="style.css?v=202607130002">
+  <link rel="stylesheet" href="style.css?v=202607130655">
 </head>
 
 <body>
+  <!-- Romantic Background Audio -->
+  <audio id="bg-music" src="https://audio.jukehost.co.uk/5VfcVfr1D3fIU8m27X85m5HVkPyRIhQr" loop preload="auto"></audio>
+
   <!-- Ambient Cosmic Background Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
@@ -33,11 +36,17 @@
     <div class="header-left">
       <span class="brand-badge">✨ Untuk Kecayangan Aku</span>
     </div>
-    <div class="step-indicators" aria-label="Progres Halaman">
-      <span class="step-dot active" data-step="1" title="The Calming Breath"></span>
-      <span class="step-dot" data-step="2" title="The Foggy Glass"></span>
-      <span class="step-dot" data-step="3" title="The Secret Vault"></span>
-      <span class="step-dot" data-step="4" title="The Night Sky"></span>
+    <div class="header-right">
+      <div class="step-indicators" aria-label="Progres Halaman">
+        <span class="step-dot active" data-step="1" title="The Calming Breath"></span>
+        <span class="step-dot" data-step="2" title="The Foggy Glass"></span>
+        <span class="step-dot" data-step="3" title="The Secret Vault"></span>
+        <span class="step-dot" data-step="4" title="The Night Sky"></span>
+      </div>
+      <button id="btn-music" class="btn-music" aria-label="Musik Latar" title="Klik untuk memutar/menjeda musik">
+        <span class="music-icon" id="music-icon">🎵</span>
+        <span class="music-label" id="music-label">Musik</span>
+      </button>
     </div>
   </header>
 
@@ -354,7 +363,7 @@
 
   </main>
 
-  <script src="script.js?v=202607130006"></script>
+  <script src="script.js?v=202607130655"></script>
 </body>
 
 </html>
