@@ -33,12 +33,6 @@
       <span class="step-dot" data-step="3" title="The Secret Vault"></span>
       <span class="step-dot" data-step="4" title="The Night Sky"></span>
     </div>
-    <button id="btn-open-settings" class="btn-settings" title="Sesuaikan Pesan & Nomor WA (Khusus Pengirim)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
-    </button>
   </header>
 
   <!-- MAIN APP CONTAINER -->
@@ -130,21 +124,15 @@
             </div>
 
             <div class="letter-scroll-area">
-              <h3 class="letter-salutation" id="letter-salutation-text">Maafin aku ya, Sayang...</h3>
+              <h3 class="letter-salutation">Maafin aku ya, Sayang...</h3>
               
-              <!-- Main Customizable Apology Body -->
               <div id="letter-main-body">
                 <p class="letter-body">
                   Aku telat peka. Pas kamu lagi butuh ditenangin, aku malah mikir kejauhan dan lupa buat sekadar hadir sepenuhnya buat kamu.
                 </p>
                 <p class="letter-body">
-                  Malam ini, biar aku yang nanggung semua overthinking-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.
+                  Malam ini, biar aku yang nanggung semua <em class="highlight-text">overthinking</em>-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.
                 </p>
-              </div>
-
-              <!-- Optional Custom Note injected by boyfriend -->
-              <div id="custom-note-box" class="custom-note-box" style="display: none;">
-                <p id="custom-note-text"></p>
               </div>
 
               <!-- Comfort Checklist Card inside Letter -->
@@ -159,7 +147,7 @@
 
               <div class="letter-footer">
                 <span>Selalu sayang kamu,</span>
-                <strong id="display-sender-name">Cowokmu</strong>
+                <strong>Cowokmu</strong>
               </div>
             </div>
           </article>
@@ -256,7 +244,7 @@
             </div>
           </div>
 
-          <!-- Card 4 (DELUXE NEW!) -->
+          <!-- Card 4 -->
           <div class="coupon-card deluxe" data-code="SWEET-TREAT-04" data-title="Manjakan Perutku 🍓" data-desc="Kirimkan camilan favorit / minuman hangat buat redain sakit perutku">
             <div class="coupon-inner">
               <div class="coupon-glow"></div>
@@ -344,69 +332,6 @@
     </section>
 
   </main>
-
-  <!-- SETTINGS MODAL (FOR THE BOYFRIEND TO CUSTOMIZE EVERYTHING) -->
-  <div id="settings-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>⚙️ Kustomisasi Pesan & Surat (Khusus Kamu)</h3>
-        <button id="btn-close-settings" class="btn-close-modal" aria-label="Tutup">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-intro">
-          Sesuaikan seluruh isi surat, panggilan sayang, dan nomor WhatsApp kamu di bawah ini. Begitu kamu klik <strong>Simpan & Terapkan</strong>, surat langsung berubah!
-        </p>
-        
-        <div id="settings-toast" class="settings-toast" style="display: none;"></div>
-
-        <div class="form-group">
-          <label for="input-wa">Nomor WhatsApp Kamu (awali 62):</label>
-          <input type="text" id="input-wa" placeholder="Contoh: 6281234567890">
-          <small>Agar tombol terakhir langsung membuka chat WA ke nomor kamu.</small>
-        </div>
-
-        <div class="form-group">
-          <label for="input-partner-name">Nama Pacarmu (Panggilan Sayang):</label>
-          <input type="text" id="input-partner-name" placeholder="Contoh: Sayang / Cantikku">
-        </div>
-
-        <div class="form-group">
-          <label for="input-sender-name">Nama Kamu (Pengirim):</label>
-          <input type="text" id="input-sender-name" placeholder="Contoh: Cowokmu">
-        </div>
-
-        <div class="form-group">
-          <label for="input-salutation">Salam Pembuka Surat:</label>
-          <input type="text" id="input-salutation" placeholder="Contoh: Maafin aku ya, Sayang...">
-        </div>
-
-        <div class="form-group">
-          <label for="input-main-message">Isi Surat Permintaan Maaf Utama:</label>
-          <textarea id="input-main-message" rows="4" placeholder="Tulis pesan permintaan maafmu di sini..."></textarea>
-          <small>Tips: Gunakan enter 2x (paragraf baru) agar tulisan rapi di surat.</small>
-        </div>
-
-        <div class="form-group">
-          <label for="input-custom-note">Catatan Khusus Tambahan (Opsional):</label>
-          <textarea id="input-custom-note" rows="2" placeholder="Contoh: Maafin aku tadi sore ya, besok aku janji bawain makanan kesukaanmu 🤍"></textarea>
-          <small>Akan muncul dalam kotak sorotan khusus di dalam surat.</small>
-        </div>
-
-        <div class="form-group">
-          <label>Link Khusus (Siap Kirim ke Pacarmu):</label>
-          <div class="share-url-box">
-            <input type="text" id="share-url-input" readonly>
-            <button id="btn-copy-link" class="btn-secondary">Salin Link</button>
-          </div>
-          <small id="copy-feedback-text" class="copy-feedback"></small>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button id="btn-reset-settings" class="btn-ghost-small">Reset Default</button>
-        <button id="btn-save-settings" class="btn-primary">Simpan & Terapkan ke Surat</button>
-      </div>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>

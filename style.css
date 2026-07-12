@@ -140,26 +140,6 @@ body {
   opacity: 0.8;
 }
 
-.btn-settings {
-  background: rgba(16, 25, 52, 0.75);
-  border: 1px solid var(--border-glass);
-  color: var(--text-muted);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s var(--ease-smooth);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-}
-
-.btn-settings:active {
-  transform: scale(0.92);
-}
-
 /* ==========================================================================
    APP CONTAINER
    ========================================================================== */
@@ -224,7 +204,6 @@ body {
   width: 100%;
 }
 
-/* Badge Tags */
 .badge-tag {
   display: inline-flex;
   align-items: center;
@@ -278,7 +257,6 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Dynamic Breathing Quote Box */
 .breathe-quote-box {
   width: 100%;
   max-width: 340px;
@@ -589,15 +567,10 @@ body {
   margin-bottom: 0.55rem;
 }
 
-.custom-note-box {
-  background: rgba(244, 211, 94, 0.1);
-  border-left: 3px solid var(--accent-gold);
-  padding: 10px 12px;
-  border-radius: 0 10px 10px 0;
-  margin: 0.4rem 0 0.7rem;
-  font-size: 0.83rem;
-  color: #FFF;
-  font-style: italic;
+.highlight-text {
+  color: var(--primary);
+  font-style: normal;
+  font-weight: 600;
 }
 
 .comfort-checklist {
@@ -1085,166 +1058,4 @@ body {
 .btn-ghost-small:active {
   color: var(--text-main);
   transform: scale(0.96);
-}
-
-/* ==========================================================================
-   SETTINGS MODAL & TOAST
-   ========================================================================== */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(3, 6, 17, 0.88);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.modal-backdrop.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 440px;
-  background: var(--bg-dark);
-  border: 1px solid var(--border-glass);
-  border-radius: 26px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-  overflow: hidden;
-  transform: scale(0.95);
-  transition: transform 0.35s var(--ease-bounce);
-}
-
-.modal-backdrop.active .modal-box {
-  transform: scale(1);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid var(--border-glass);
-}
-
-.modal-header h3 {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--text-main);
-}
-
-.btn-close-modal {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.6rem;
-  cursor: pointer;
-  padding: 4px;
-}
-
-.modal-body {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-height: 70vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal-intro {
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.settings-toast {
-  background: rgba(37, 211, 102, 0.15);
-  border: 1px solid #25D366;
-  color: #25D366;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 10px 14px;
-  border-radius: 12px;
-  text-align: center;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: left;
-}
-
-.form-group label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.form-group input, .form-group textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-glass);
-  color: #FFF;
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  transition: border-color 0.25s ease;
-  resize: none;
-}
-
-.form-group input:focus, .form-group textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.form-group small {
-  font-size: 0.74rem;
-  color: var(--text-dim);
-}
-
-.share-url-box {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-secondary {
-  background: rgba(72, 202, 228, 0.2);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  padding: 0 16px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.copy-feedback {
-  color: #25D366;
-  font-weight: 600;
-}
-
-.modal-footer {
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid var(--border-glass);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
 }
