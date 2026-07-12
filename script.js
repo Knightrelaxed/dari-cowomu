@@ -1,11 +1,11 @@
 /**
  * ==========================================================================
- * MIDNIGHT APOLOGY — iPHONE & iOS OPTIMIZED ULTIMATE ROMANTIC EDITION
+ * MIDNIGHT APOLOGY — FULL CUSTOMIZATION ENGINE & iPHONE OPTIMIZED
  * ==========================================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- STATE & SETTINGS ---
+  // --- STATE & DEFAULT TEMPLATE SETTINGS ---
   let currentStep = 1;
   let selectedCoupon = {
     code: 'LDR-SURVIVOR-01',
@@ -13,58 +13,94 @@ document.addEventListener('DOMContentLoaded', () => {
     desc: 'Buatin aku surat panjang buat dibaca pas aman & kangen'
   };
 
-  const config = {
+  const DEFAULT_CONFIG = {
     waNumber: '6281234567890',
     partnerName: 'Sayang',
     senderName: 'Cowokmu',
+    salutation: 'Maafin aku ya, Sayang...',
+    mainMessage: 'Aku telat peka. Pas kamu lagi butuh ditenangin, aku malah mikir kejauhan dan lupa buat sekadar hadir sepenuhnya buat kamu.\n\nMalam ini, biar aku yang nanggung semua overthinking-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.',
     customNote: ''
   };
+
+  const config = { ...DEFAULT_CONFIG };
 
   // Load URL parameters or LocalStorage
   function loadConfig() {
     const params = new URLSearchParams(window.location.search);
-    config.partnerName = params.get('name') || localStorage.getItem('apology_partner_name') || 'Sayang';
-    config.senderName = params.get('sender') || localStorage.getItem('apology_sender_name') || 'Cowokmu';
-    config.waNumber = params.get('wa') || localStorage.getItem('apology_wa_number') || '6281234567890';
-    config.customNote = params.get('note') || localStorage.getItem('apology_custom_note') || '';
+    config.partnerName = params.get('name') || localStorage.getItem('apology_partner_name') || DEFAULT_CONFIG.partnerName;
+    config.senderName = params.get('sender') || localStorage.getItem('apology_sender_name') || DEFAULT_CONFIG.senderName;
+    config.waNumber = params.get('wa') || localStorage.getItem('apology_wa_number') || DEFAULT_CONFIG.waNumber;
+    config.salutation = params.get('salut') || localStorage.getItem('apology_salutation') || DEFAULT_CONFIG.salutation;
+    config.mainMessage = params.get('msg') || localStorage.getItem('apology_main_message') || DEFAULT_CONFIG.mainMessage;
+    config.customNote = params.get('note') || localStorage.getItem('apology_custom_note') || DEFAULT_CONFIG.customNote;
 
+    applyConfigToUI();
+    populateModalInputs();
+  }
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str.replace(/[&<>'"]/g, 
+      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+  }
+
+  // Apply config to visible DOM elements dynamically
+  function applyConfigToUI() {
+    // 1. Greeting in State 1
     const displayGreeting = document.getElementById('display-greeting');
     if (displayGreeting) {
       displayGreeting.innerHTML = `Halo ${escapeHTML(config.partnerName)}, <br><span class="accent-text">Tarik Napas Sebentar Ya...</span>`;
     }
 
+    // 2. Sender Name in State 2 letter
     const displaySender = document.getElementById('display-sender-name');
     if (displaySender) {
       displaySender.textContent = config.senderName;
     }
 
+    // 3. Salutation in State 2 letter
+    const letterSalutation = document.getElementById('letter-salutation-text');
+    if (letterSalutation) {
+      letterSalutation.textContent = config.salutation || `Maafin aku ya, ${config.partnerName}...`;
+    }
+
+    // 4. Main Apology Body in State 2 letter
+    const letterMainBody = document.getElementById('letter-main-body');
+    if (letterMainBody && config.mainMessage) {
+      const paragraphs = config.mainMessage.split(/\n+/).filter(p => p.trim());
+      letterMainBody.innerHTML = paragraphs.map(p => `<p class="letter-body">${escapeHTML(p.trim())}</p>`).join('');
+    }
+
+    // 5. Custom Note Box in State 2 letter
     const customNoteBox = document.getElementById('custom-note-box');
     const customNoteText = document.getElementById('custom-note-text');
     if (customNoteBox && customNoteText) {
-      if (config.customNote.trim()) {
-        customNoteText.textContent = `"${config.customNote}"`;
+      if (config.customNote && config.customNote.trim()) {
+        customNoteText.textContent = `"${config.customNote.trim()}"`;
         customNoteBox.style.display = 'block';
       } else {
         customNoteBox.style.display = 'none';
       }
     }
 
-    const inputWa = document.getElementById('input-wa');
-    const inputPartner = document.getElementById('input-partner-name');
-    const inputSender = document.getElementById('input-sender-name');
-    const inputNote = document.getElementById('input-custom-note');
-    if (inputWa) inputWa.value = config.waNumber;
-    if (inputPartner) inputPartner.value = config.partnerName;
-    if (inputSender) inputSender.value = config.senderName;
-    if (inputNote) inputNote.value = config.customNote;
-
     updateShareLink();
   }
 
-  function escapeHTML(str) {
-    return str.replace(/[&<>'"]/g, 
-      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-    );
+  function populateModalInputs() {
+    const inputWa = document.getElementById('input-wa');
+    const inputPartner = document.getElementById('input-partner-name');
+    const inputSender = document.getElementById('input-sender-name');
+    const inputSalutation = document.getElementById('input-salutation');
+    const inputMainMessage = document.getElementById('input-main-message');
+    const inputNote = document.getElementById('input-custom-note');
+
+    if (inputWa) inputWa.value = config.waNumber;
+    if (inputPartner) inputPartner.value = config.partnerName;
+    if (inputSender) inputSender.value = config.senderName;
+    if (inputSalutation) inputSalutation.value = config.salutation;
+    if (inputMainMessage) inputMainMessage.value = config.mainMessage;
+    if (inputNote) inputNote.value = config.customNote;
   }
 
   function updateShareLink() {
@@ -74,7 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
     url.searchParams.set('name', config.partnerName);
     url.searchParams.set('sender', config.senderName);
     url.searchParams.set('wa', config.waNumber);
-    if (config.customNote.trim()) {
+    if (config.salutation && config.salutation !== DEFAULT_CONFIG.salutation) {
+      url.searchParams.set('salut', config.salutation.trim());
+    }
+    if (config.mainMessage && config.mainMessage !== DEFAULT_CONFIG.mainMessage) {
+      url.searchParams.set('msg', config.mainMessage.trim());
+    }
+    if (config.customNote && config.customNote.trim()) {
       url.searchParams.set('note', config.customNote.trim());
     }
     shareInput.value = url.toString();
@@ -293,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSkipState1.addEventListener('click', () => goToState(2));
   }
 
-  // --- STATE 2: THE FOGGY GLASS (CANVAS SCRATCH EFFECT) ---
+  // --- STATE 2: THE FOGGY GLASS ---
   const fogCanvas = document.getElementById('fog-canvas');
   const fogWrapper = document.getElementById('foggy-wrapper');
   const wipeFill = document.getElementById('wipe-fill');
@@ -312,11 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
     fogCtx = fogCanvas.getContext('2d');
     fogCtx.scale(dpr, dpr);
 
-    // Draw frosted foggy texture
     fogCtx.fillStyle = 'rgba(145, 175, 215, 0.9)';
     fogCtx.fillRect(0, 0, rect.width, rect.height);
 
-    // Add subtle water droplets
     fogCtx.fillStyle = 'rgba(230, 245, 255, 0.45)';
     for (let i = 0; i < 110; i++) {
       const x = Math.random() * rect.width;
@@ -430,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnToState3.addEventListener('click', () => goToState(3));
   }
 
-  // --- STATE 3: THE SECRET VAULT (COUPONS) ---
+  // --- STATE 3: THE SECRET VAULT ---
   const couponCards = document.querySelectorAll('.coupon-card');
   const couponFeedback = document.getElementById('coupon-feedback');
 
@@ -460,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (CONSTELLATION CREATOR & WISHES) ---
+  // --- STATE 4: THE NIGHT SKY ---
   const starsStage = document.getElementById('stars-stage');
   const constellationCounter = document.getElementById('constellation-counter');
   let constellationPoints = [];
@@ -570,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnSendWa) {
     btnSendWa.addEventListener('click', () => {
       const cleanNumber = config.waNumber.replace(/[^0-9]/g, '');
-      const message = `Halo sayang, aku udah buka web permintaan maaf dari kamu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah peduli sama perutku dan pikiranku malam ini. Aku sayang kamu!`;
+      const message = `Halo ${config.partnerName}, aku udah buka web permintaan maaf dari kamu (${config.senderName}) 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah peduli sama perutku dan pikiranku malam ini. Aku sayang kamu!`;
       
       const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
@@ -594,11 +634,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnOpenSettings = document.getElementById('btn-open-settings');
   const btnCloseSettings = document.getElementById('btn-close-settings');
   const btnSaveSettings = document.getElementById('btn-save-settings');
+  const btnResetSettings = document.getElementById('btn-reset-settings');
   const btnCopyLink = document.getElementById('btn-copy-link');
   const copyFeedbackText = document.getElementById('copy-feedback-text');
+  const settingsToast = document.getElementById('settings-toast');
 
   if (btnOpenSettings) {
     btnOpenSettings.addEventListener('click', () => {
+      populateModalInputs();
       updateShareLink();
       settingsModal.classList.add('active');
       settingsModal.setAttribute('aria-hidden', 'false');
@@ -617,38 +660,59 @@ document.addEventListener('DOMContentLoaded', () => {
       const inputWa = document.getElementById('input-wa').value.trim();
       const inputPartner = document.getElementById('input-partner-name').value.trim();
       const inputSender = document.getElementById('input-sender-name').value.trim();
+      const inputSalutation = document.getElementById('input-salutation').value.trim();
+      const inputMainMessage = document.getElementById('input-main-message').value.trim();
       const inputNote = document.getElementById('input-custom-note').value.trim();
 
-      if (inputWa) config.waNumber = inputWa;
-      if (inputPartner) config.partnerName = inputPartner;
-      if (inputSender) config.senderName = inputSender;
+      config.waNumber = inputWa || DEFAULT_CONFIG.waNumber;
+      config.partnerName = inputPartner || DEFAULT_CONFIG.partnerName;
+      config.senderName = inputSender || DEFAULT_CONFIG.senderName;
+      config.salutation = inputSalutation || DEFAULT_CONFIG.salutation;
+      config.mainMessage = inputMainMessage || DEFAULT_CONFIG.mainMessage;
       config.customNote = inputNote;
 
       localStorage.setItem('apology_wa_number', config.waNumber);
       localStorage.setItem('apology_partner_name', config.partnerName);
       localStorage.setItem('apology_sender_name', config.senderName);
+      localStorage.setItem('apology_salutation', config.salutation);
+      localStorage.setItem('apology_main_message', config.mainMessage);
       localStorage.setItem('apology_custom_note', config.customNote);
 
-      const displayGreeting = document.getElementById('display-greeting');
-      if (displayGreeting) {
-        displayGreeting.innerHTML = `Halo ${escapeHTML(config.partnerName)}, <br><span class="accent-text">Tarik Napas Sebentar Ya...</span>`;
-      }
-      const displaySender = document.getElementById('display-sender-name');
-      if (displaySender) displaySender.textContent = config.senderName;
+      applyConfigToUI();
 
-      const customNoteBox = document.getElementById('custom-note-box');
-      const customNoteText = document.getElementById('custom-note-text');
-      if (customNoteBox && customNoteText) {
-        if (config.customNote.trim()) {
-          customNoteText.textContent = `"${config.customNote}"`;
-          customNoteBox.style.display = 'block';
-        } else {
-          customNoteBox.style.display = 'none';
-        }
+      if (settingsToast) {
+        settingsToast.textContent = '✅ Berhasil! Surat & pesan di halaman 1 dan 2 langsung terperbarui.';
+        settingsToast.style.display = 'block';
+        setTimeout(() => {
+          settingsToast.style.display = 'none';
+          closeModal();
+        }, 1600);
+      } else {
+        closeModal();
       }
+    });
+  }
 
-      updateShareLink();
-      closeModal();
+  if (btnResetSettings) {
+    btnResetSettings.addEventListener('click', () => {
+      localStorage.removeItem('apology_wa_number');
+      localStorage.removeItem('apology_partner_name');
+      localStorage.removeItem('apology_sender_name');
+      localStorage.removeItem('apology_salutation');
+      localStorage.removeItem('apology_main_message');
+      localStorage.removeItem('apology_custom_note');
+
+      Object.assign(config, DEFAULT_CONFIG);
+      populateModalInputs();
+      applyConfigToUI();
+
+      if (settingsToast) {
+        settingsToast.textContent = '🔄 Berhasil direset ke template default!';
+        settingsToast.style.display = 'block';
+        setTimeout(() => {
+          settingsToast.style.display = 'none';
+        }, 2000);
+      }
     });
   }
 

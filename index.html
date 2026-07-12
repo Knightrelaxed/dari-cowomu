@@ -22,7 +22,7 @@
   <!-- Ambient Cosmic Background Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Navigation / Step Indicator (Supports iPhone Notch & Dynamic Island) -->
+  <!-- Navigation / Step Indicator -->
   <header class="app-header">
     <div class="header-left">
       <span class="brand-badge">✨ Celestial Love</span>
@@ -132,12 +132,15 @@
             <div class="letter-scroll-area">
               <h3 class="letter-salutation" id="letter-salutation-text">Maafin aku ya, Sayang...</h3>
               
-              <p class="letter-body">
-                Aku telat peka. Pas kamu lagi butuh ditenangin, aku malah mikir kejauhan dan lupa buat sekadar hadir sepenuhnya buat kamu.
-              </p>
-              <p class="letter-body">
-                Malam ini, biar aku yang nanggung semua <em class="highlight-text">overthinking</em>-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.
-              </p>
+              <!-- Main Customizable Apology Body -->
+              <div id="letter-main-body">
+                <p class="letter-body">
+                  Aku telat peka. Pas kamu lagi butuh ditenangin, aku malah mikir kejauhan dan lupa buat sekadar hadir sepenuhnya buat kamu.
+                </p>
+                <p class="letter-body">
+                  Malam ini, biar aku yang nanggung semua overthinking-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.
+                </p>
+              </div>
 
               <!-- Optional Custom Note injected by boyfriend -->
               <div id="custom-note-box" class="custom-note-box" style="display: none;">
@@ -342,27 +345,29 @@
 
   </main>
 
-  <!-- SETTINGS MODAL (FOR THE BOYFRIEND TO CUSTOMIZE WA NUMBER & NAME) -->
+  <!-- SETTINGS MODAL (FOR THE BOYFRIEND TO CUSTOMIZE EVERYTHING) -->
   <div id="settings-modal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>⚙️ Kustomisasi Pesan (Khusus Kamu)</h3>
+        <h3>⚙️ Kustomisasi Pesan & Surat (Khusus Kamu)</h3>
         <button id="btn-close-settings" class="btn-close-modal" aria-label="Tutup">&times;</button>
       </div>
       <div class="modal-body">
         <p class="modal-intro">
-          Atur nama dan nomor WhatsApp kamu sebelum mengirimkan *link* web ini ke pacarmu. Semua pengaturan tersimpan otomatis!
+          Sesuaikan seluruh isi surat, panggilan sayang, dan nomor WhatsApp kamu di bawah ini. Begitu kamu klik <strong>Simpan & Terapkan</strong>, surat langsung berubah!
         </p>
         
+        <div id="settings-toast" class="settings-toast" style="display: none;"></div>
+
         <div class="form-group">
           <label for="input-wa">Nomor WhatsApp Kamu (awali 62):</label>
           <input type="text" id="input-wa" placeholder="Contoh: 6281234567890">
-          <small>Agar tombol di halaman terakhir langsung mengirim pesan ke WhatsApp kamu.</small>
+          <small>Agar tombol terakhir langsung membuka chat WA ke nomor kamu.</small>
         </div>
 
         <div class="form-group">
           <label for="input-partner-name">Nama Pacarmu (Panggilan Sayang):</label>
-          <input type="text" id="input-partner-name" placeholder="Contoh: Cantikku / Sayang">
+          <input type="text" id="input-partner-name" placeholder="Contoh: Sayang / Cantikku">
         </div>
 
         <div class="form-group">
@@ -371,13 +376,24 @@
         </div>
 
         <div class="form-group">
-          <label for="input-custom-note">Catatan Tambahan di Surat (Opsional):</label>
-          <textarea id="input-custom-note" rows="2" placeholder="Contoh: Maafin aku tadi sore ya sayang, aku janji besok jemput kamu lebih awal 🤍"></textarea>
-          <small>Akan ditampilkan langsung di dalam surat permintaan maaf.</small>
+          <label for="input-salutation">Salam Pembuka Surat:</label>
+          <input type="text" id="input-salutation" placeholder="Contoh: Maafin aku ya, Sayang...">
         </div>
 
         <div class="form-group">
-          <label>Link Khusus untuk Dia:</label>
+          <label for="input-main-message">Isi Surat Permintaan Maaf Utama:</label>
+          <textarea id="input-main-message" rows="4" placeholder="Tulis pesan permintaan maafmu di sini..."></textarea>
+          <small>Tips: Gunakan enter 2x (paragraf baru) agar tulisan rapi di surat.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="input-custom-note">Catatan Khusus Tambahan (Opsional):</label>
+          <textarea id="input-custom-note" rows="2" placeholder="Contoh: Maafin aku tadi sore ya, besok aku janji bawain makanan kesukaanmu 🤍"></textarea>
+          <small>Akan muncul dalam kotak sorotan khusus di dalam surat.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Link Khusus (Siap Kirim ke Pacarmu):</label>
           <div class="share-url-box">
             <input type="text" id="share-url-input" readonly>
             <button id="btn-copy-link" class="btn-secondary">Salin Link</button>
@@ -386,7 +402,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="btn-save-settings" class="btn-primary">Simpan & Terapkan</button>
+        <button id="btn-reset-settings" class="btn-ghost-small">Reset Default</button>
+        <button id="btn-save-settings" class="btn-primary">Simpan & Terapkan ke Surat</button>
       </div>
     </div>
   </div>

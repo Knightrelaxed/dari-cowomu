@@ -75,7 +75,7 @@ body {
   pointer-events: none;
 }
 
-/* App Header & Brand Badge (iPhone Notch & Dynamic Island safe) */
+/* App Header & Brand Badge */
 .app-header {
   position: fixed;
   top: 0;
@@ -161,7 +161,7 @@ body {
 }
 
 /* ==========================================================================
-   APP CONTAINER (MOBILE-FIRST FRAME & iPHONE VIEWPORT OPTIMIZED)
+   APP CONTAINER
    ========================================================================== */
 .app-container {
   position: relative;
@@ -255,7 +255,6 @@ body {
   50% { transform: scale(1.6); opacity: 0.4; }
 }
 
-/* Typography Headings */
 .greeting-title, .section-title {
   font-family: var(--font-display);
   font-size: 1.55rem;
@@ -439,7 +438,6 @@ body {
   transform: scale(0.94);
 }
 
-/* Breathing cycle status */
 .breathe-cycles {
   display: flex;
   align-items: center;
@@ -520,7 +518,7 @@ body {
 }
 
 /* ==========================================================================
-   STATE 2: THE FOGGY GLASS (WIPE TO REVEAL)
+   STATE 2: THE FOGGY GLASS
    ========================================================================== */
 .foggy-glass-wrapper {
   position: relative;
@@ -589,12 +587,6 @@ body {
   line-height: 1.62;
   color: rgba(248, 250, 252, 0.92);
   margin-bottom: 0.55rem;
-}
-
-.highlight-text {
-  color: var(--primary);
-  font-style: normal;
-  font-weight: 600;
 }
 
 .custom-note-box {
@@ -711,7 +703,7 @@ body {
 }
 
 /* ==========================================================================
-   STATE 3: THE SECRET VAULT (DELUXE 4 COUPONS)
+   STATE 3: THE SECRET VAULT
    ========================================================================== */
 .coupons-grid {
   display: flex;
@@ -820,7 +812,7 @@ body {
 }
 
 /* ==========================================================================
-   STATE 4: THE NIGHT SKY (CONSTELLATION & WISHES)
+   STATE 4: THE NIGHT SKY
    ========================================================================== */
 .selected-coupon-display {
   width: 100%;
@@ -870,7 +862,6 @@ body {
   border-radius: 4px;
 }
 
-/* Interactive Constellation Star Stage */
 .stars-interaction-stage {
   position: relative;
   width: 100%;
@@ -970,7 +961,6 @@ body {
   100% { transform: scale(1.2) rotate(-35deg) translateX(240px); opacity: 0; }
 }
 
-/* Star Wish Generator Card */
 .star-wish-box {
   width: 100%;
   max-width: 400px;
@@ -1042,7 +1032,7 @@ body {
   gap: 10px;
 }
 
-/* iPhone Native-Feeling Buttons (Min 44px Touch Target) */
+/* iPhone Native-Feeling Buttons */
 .btn-primary, .btn-whatsapp {
   width: 100%;
   min-height: 48px;
@@ -1098,7 +1088,7 @@ body {
 }
 
 /* ==========================================================================
-   SETTINGS MODAL (FOR THE BOYFRIEND)
+   SETTINGS MODAL & TOAST
    ========================================================================== */
 .modal-backdrop {
   position: fixed;
@@ -1176,6 +1166,23 @@ body {
   line-height: 1.5;
 }
 
+.settings-toast {
+  background: rgba(37, 211, 102, 0.15);
+  border: 1px solid #25D366;
+  color: #25D366;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1236,4 +1243,8 @@ body {
 .modal-footer {
   padding: 1.25rem 1.5rem;
   border-top: 1px solid var(--border-glass);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
