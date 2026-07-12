@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('resize', () => {
     resizeAmbientCanvas();
-    resizeSkyCanvas();
+    initSkyCanvas();
   });
   resizeAmbientCanvas();
   animateAmbient();
@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (targetStep === 4) {
       setTimeout(() => {
-        resizeSkyCanvas();
-      }, 100);
+        initSkyCanvas();
+      }, 80);
     }
   }
 
@@ -403,8 +403,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (ROCK-SOLID GUARANTEED HTML5 CANVAS) ---
+  // --- STATE 4: THE NIGHT SKY (GUARANTEED 100% VISIBLE & RESPONSIVE HTML5 CANVAS) ---
   const skyCanvas = document.getElementById('sky-canvas');
+  const starsStage = document.getElementById('stars-stage');
   let skyCtx = null;
   const constellationStatusText = document.getElementById('constellation-status-text');
   const starCountNum = document.getElementById('star-count-num');
@@ -415,27 +416,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let shootingStars = [];
   let skyAnimId = null;
 
-  function resizeSkyCanvas() {
-    if (!skyCanvas) return;
-    const stage = document.getElementById('stars-stage');
-    const dpr = window.devicePixelRatio || 1;
-    const width = (stage ? stage.clientWidth : 360) || 360;
-    const height = (stage ? stage.clientHeight : 250) || 250;
-
-    skyCanvas.width = width * dpr;
-    skyCanvas.height = height * dpr;
-    if (skyCtx) skyCtx.scale(dpr, dpr);
-  }
-
   function initSkyCanvas() {
     if (!skyCanvas) return;
     skyCtx = skyCanvas.getContext('2d');
-    resizeSkyCanvas();
+    const stage = document.getElementById('stars-stage');
+    const dpr = window.devicePixelRatio || 1;
+    const width = (stage && stage.clientWidth > 50 ? stage.clientWidth : 360);
+    const height = (stage && stage.clientHeight > 50 ? stage.clientHeight : 260);
+
+    skyCanvas.width = width * dpr;
+    skyCanvas.height = height * dpr;
+    skyCtx.scale(dpr, dpr);
 
     skyStars = [];
-    const width = skyCanvas.width / (window.devicePixelRatio || 1);
-    const height = skyCanvas.height / (window.devicePixelRatio || 1);
-
     for (let i = 0; i < 55; i++) {
       skyStars.push({
         x: Math.random() * width,
@@ -555,10 +548,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function handleSkyTap(e) {
     if (!skyCanvas) return;
-    const rect = skyCanvas.getBoundingClientRect();
+    const stage = document.getElementById('stars-stage');
+    const rect = (stage || skyCanvas).getBoundingClientRect();
     const touch = e.touches ? e.touches[0] : e;
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
+    const x = Math.max(10, Math.min(rect.width - 10, touch.clientX - rect.left));
+    const y = Math.max(10, Math.min(rect.height - 10, touch.clientY - rect.top));
 
     if (skyTouchPrompt) {
       skyTouchPrompt.style.opacity = '0';
@@ -586,16 +580,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navigator.vibrate) navigator.vibrate(15);
   }
 
-  if (skyCanvas) {
+  if (starsStage) {
+    starsStage.addEventListener('click', handleSkyTap);
+    starsStage.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      handleSkyTap(e);
+    }, { passive: false });
+  } else if (skyCanvas) {
     skyCanvas.addEventListener('click', handleSkyTap);
     skyCanvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
       handleSkyTap(e);
     }, { passive: false });
-    
-    // Initialize immediately so it is NEVER empty
-    initSkyCanvas();
   }
+
+  initSkyCanvas();
 
   // Star Wish Quote Generator
   const btnPickStar = document.getElementById('btn-pick-star');
