@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Midnight Apology — Untuk Kamu yang Paling Berharga</title>
+  <meta name="description" content="Sebuah ruang tenang untuk meredakan rasa sakit dan overthinking malam ini.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans, Outfit, Playfair Display & Great Vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Cosmic Background Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Navigation / Step Indicator -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="brand-badge">✨ Celestial Love</span>
+    </div>
+    <div class="step-indicators" aria-label="Progres Halaman">
+      <span class="step-dot active" data-step="1" title="The Calming Breath"></span>
+      <span class="step-dot" data-step="2" title="The Foggy Glass"></span>
+      <span class="step-dot" data-step="3" title="The Secret Vault"></span>
+      <span class="step-dot" data-step="4" title="The Night Sky"></span>
+    </div>
+    <button id="btn-open-settings" class="btn-settings" title="Sesuaikan Pesan & Nomor WA (Khusus Pengirim)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- STATE 1: THE CALMING BREATH -->
+    <section id="state-1" class="state-screen active">
+      <div class="state-content breathe-content">
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          <span>Ruang Tenang & Pelukan Virtual</span>
+        </div>
+        <h1 class="greeting-title" id="display-greeting">
+          Halo Kesayangan, <br><span class="accent-text">Tarik Napas Sebentar Ya...</span>
+        </h1>
+        <p class="greeting-subtitle">
+          Aku tau perutmu lagi sakit dan pikiranmu lagi kacau malam ini. Sebelum baca pesan dariku, biarkan aku peluk kamu lewat napas yang tenang ini.
+        </p>
+
+        <!-- Dynamic Emotional Message Floating Box -->
+        <div class="breathe-quote-box" id="breathe-quote-box">
+          <span id="breathe-quote-text">"Sentuh dan tahan bola cahaya di bawah ini..."</span>
+        </div>
+
+        <!-- Interactive Breathing Orb -->
+        <div class="breathing-stage">
+          <div class="orb-aura"></div>
+          <div class="orb-particles" id="orb-particles"></div>
+          <div class="orb-container" id="breathe-orb">
+            <svg class="orb-progress-svg" viewBox="0 0 160 160">
+              <circle class="orb-progress-bg" cx="80" cy="80" r="74"></circle>
+              <circle class="orb-progress-bar" id="orb-progress-circle" cx="80" cy="80" r="74"></circle>
+            </svg>
+            <div class="orb-core">
+              <div class="orb-inner-glow"></div>
+              <div class="orb-text">
+                <span id="breathe-phase-label">Sentuh & Tahan</span>
+                <small id="breathe-instruction">Tekan & tahan layar</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cycle Indicator -->
+        <div class="breathe-cycles">
+          <div class="cycle-pill" id="cycle-1" title="Siklus 1">
+            <span class="cycle-num">1</span>
+            <span class="cycle-icon">🤍</span>
+          </div>
+          <div class="cycle-pill" id="cycle-2" title="Siklus 2">
+            <span class="cycle-num">2</span>
+            <span class="cycle-icon">💖</span>
+          </div>
+          <div class="cycle-pill" id="cycle-3" title="Siklus 3">
+            <span class="cycle-num">3</span>
+            <span class="cycle-icon">✨</span>
+          </div>
+        </div>
+        <p class="cycle-status" id="cycle-status-text">Tahan jarimu di bola cahaya untuk mulai bernapas</p>
+
+        <div class="skip-area">
+          <button id="btn-skip-state-1" class="btn-ghost">
+            <span>Sudah lebih tenang, lanjut ke pesan</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE 2: THE FOGGY GLASS (WIPE TO REVEAL) -->
+    <section id="state-2" class="state-screen">
+      <div class="state-content foggy-content">
+        <div class="badge-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Menghapus Kabut Overthinking</span>
+        </div>
+        <h2 class="section-title">Usap Kaca Embun Ini Pelan-Pelan</h2>
+        <p class="section-subtitle">Ada surat permintaan maaf dan pesan khusus yang menunggumu di baliknya.</p>
+
+        <!-- Foggy Glass Container -->
+        <div class="foggy-glass-wrapper" id="foggy-wrapper">
+          <!-- The Revealed Apology Letter Behind -->
+          <article class="apology-letter" id="apology-letter">
+            <div class="letter-header">
+              <div class="letter-badge-left">
+                <span class="letter-date" id="letter-date-display">Malam Ini • Untukmu</span>
+              </div>
+              <div class="letter-stamp" title="Surat Cinta">💌</div>
+            </div>
+
+            <div class="letter-scroll-area">
+              <h3 class="letter-salutation" id="letter-salutation-text">Maafin aku ya, Sayang...</h3>
+              
+              <p class="letter-body">
+                Aku telat peka. Pas kamu lagi butuh ditenangin, aku malah mikir kejauhan dan lupa buat sekadar hadir sepenuhnya buat kamu.
+              </p>
+              <p class="letter-body">
+                Malam ini, biar aku yang nanggung semua <em class="highlight-text">overthinking</em>-nya. Kamu cukup istirahat, peluk gulingmu, dan izinkan aku tetap menemani kamu dengan cara yang paling membuatmu nyaman.
+              </p>
+
+              <!-- Optional Custom Note injected by boyfriend -->
+              <div id="custom-note-box" class="custom-note-box" style="display: none;">
+                <p id="custom-note-text"></p>
+              </div>
+
+              <!-- Comfort Checklist Card inside Letter -->
+              <div class="comfort-checklist">
+                <span class="checklist-title">🌿 Pengingat Kecil Buat Perutmu Malam Ini:</span>
+                <ul>
+                  <li>💧 Minum air hangat pelan-pelan ya sayang</li>
+                  <li>🧸 Tarik selimut hangat & kompres perutmu kalau nyeri</li>
+                  <li>🤍 Ingat kalau kamu selalu dicintai sebegitu dalamnya</li>
+                </ul>
+              </div>
+
+              <div class="letter-footer">
+                <span>Selalu sayang kamu,</span>
+                <strong id="display-sender-name">Cowokmu</strong>
+              </div>
+            </div>
+          </article>
+
+          <!-- Canvas Overlay for Scratch / Wipe Effect -->
+          <canvas id="fog-canvas"></canvas>
+
+          <!-- Wipe Progress Indicator -->
+          <div class="wipe-progress-bar">
+            <div class="wipe-progress-fill" id="wipe-fill"></div>
+          </div>
+          <div class="wipe-hint" id="wipe-hint">
+            <span>✨ Usap layar dengan jarimu untuk membersihkan embun</span>
+          </div>
+        </div>
+
+        <!-- Continue Button (Appears smoothly after wiping) -->
+        <div class="action-row" id="fog-action-row" style="opacity: 0; pointer-events: none;">
+          <button id="btn-to-state-3" class="btn-primary">
+            <span>Buka Kotak Rahasia Kita</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE 3: THE SECRET VAULT (DELUXE 4 COUPONS) -->
+    <section id="state-3" class="state-screen">
+      <div class="state-content vault-content">
+        <div class="badge-tag">
+          <span>🎁 Kupon LDR & Penawar Bete</span>
+        </div>
+        <h2 class="section-title">Pilih Satu Penawar Bete Malam Ini</h2>
+        <p class="section-subtitle">
+          Klik salah satu kartu di bawah ini untuk menukarkan kupon khusus yang langsung berlaku sekarang juga.
+        </p>
+
+        <!-- 4 Deluxe Interactive 3D Tilt Cards -->
+        <div class="coupons-grid">
+          <!-- Card 1 -->
+          <div class="coupon-card" data-code="LDR-SURVIVOR-01" data-title="Surat Rahasia 💌" data-desc="Buatin aku surat panjang buat dibaca pas aman & kangen">
+            <div class="coupon-inner">
+              <div class="coupon-glow"></div>
+              <div class="coupon-front">
+                <div class="coupon-top">
+                  <span class="coupon-icon">💌</span>
+                  <span class="coupon-badge">Kupon #01</span>
+                </div>
+                <h3 class="coupon-name">Surat Rahasia & Pelukan</h3>
+                <p class="coupon-summary">Buatin aku surat cinta panjang & pelukan virtual untuk dibaca pas aku lagi kangen atau overthinking.</p>
+                <div class="coupon-cta">
+                  <span>Klik untuk Memilih</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="coupon-card" data-code="EMOTIONAL-SAFEHOUSE-02" data-title="Celengan Emosi 🫂" data-desc="Aku mau spam chat ngomel, kamu cukup baca, dengerin & peluk">
+            <div class="coupon-inner">
+              <div class="coupon-glow"></div>
+              <div class="coupon-front">
+                <div class="coupon-top">
+                  <span class="coupon-icon">🫂</span>
+                  <span class="coupon-badge">Kupon #02</span>
+                </div>
+                <h3 class="coupon-name">Celengan Emosi & Dengar</h3>
+                <p class="coupon-summary">Aku mau spam chat & cerita sepuasnya tentang hari ini. Kamu cukup dengerin tanpa judgement & peluk aku.</p>
+                <div class="coupon-cta">
+                  <span>Klik untuk Memilih</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="coupon-card" data-code="MORNING-SUNSHINE-03" data-title="Prioritas Pagi ☀️" data-desc="Besok pagi temenin aku ngobrol & bangunin pakai sayang">
+            <div class="coupon-inner">
+              <div class="coupon-glow"></div>
+              <div class="coupon-front">
+                <div class="coupon-top">
+                  <span class="coupon-icon">☀️</span>
+                  <span class="coupon-badge">Kupon #03</span>
+                </div>
+                <h3 class="coupon-name">Prioritas Pagi Hangat</h3>
+                <p class="coupon-summary">Besok pagi jadi orang pertama yang nemenin aku ngobrol santai dan bangunin aku penuh sayang.</p>
+                <div class="coupon-cta">
+                  <span>Klik untuk Memilih</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 (DELUXE NEW!) -->
+          <div class="coupon-card deluxe" data-code="SWEET-TREAT-04" data-title="Manjakan Perutku 🍓" data-desc="Kirimkan camilan favorit / minuman hangat buat redain sakit perutku">
+            <div class="coupon-inner">
+              <div class="coupon-glow"></div>
+              <div class="coupon-front">
+                <div class="coupon-top">
+                  <span class="coupon-icon">🍓</span>
+                  <span class="coupon-badge deluxe-badge">Kupon Spesial #04</span>
+                </div>
+                <h3 class="coupon-name">Manjakan Perutku</h3>
+                <p class="coupon-summary">Kirimkan aku camilan manis favorit atau minuman hangat besok untuk balikin mood & manjain perutku.</p>
+                <div class="coupon-cta">
+                  <span>Klik untuk Memilih</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="coupon-feedback" id="coupon-feedback">
+          <p>Pilih salah satu kartu di atas ya sayang</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE 4: THE NIGHT SKY (FINAL CONSTELLATION & WHATSAPP SEND) -->
+    <section id="state-4" class="state-screen">
+      <div class="state-content sky-content">
+        <div class="badge-tag">
+          <span>🌌 Langit Malam & Rasi Bintang Kita</span>
+        </div>
+        <h2 class="section-title">Sentuh Langitnya, Lukis Rasi Cintamu</h2>
+        <p class="section-subtitle">
+          Setiap sentuhanmu menerbangkan bintang jatuh. Sentuh 3 kali untuk menyusun garis rasi bintang kita malam ini.
+        </p>
+
+        <!-- Selected Coupon Summary Badge -->
+        <div class="selected-coupon-display" id="selected-coupon-display">
+          <span class="chosen-label">Pilihanmu Malam Ini:</span>
+          <div class="chosen-card-summary">
+            <span class="chosen-icon" id="chosen-icon">💖</span>
+            <div>
+              <h4 id="chosen-title">Surat Rahasia 💌</h4>
+              <code id="chosen-code">KODE: LDR-SURVIVOR-01</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Constellation Star Stage -->
+        <div class="stars-interaction-stage" id="stars-stage" title="Sentuh di mana saja untuk memunculkan bintang jatuh & rasi cinta!">
+          <div class="constellation-counter" id="constellation-counter">
+            <span>Sentuh langit 3x untuk merangkai rasi cinta ✨</span>
+          </div>
+          <div class="stars-hint">
+            <span>🌠 Sentuh layar untuk menerbangkan bintang jatuh</span>
+          </div>
+        </div>
+
+        <!-- Sweet Star Quote Generator -->
+        <div class="star-wish-box">
+          <button id="btn-pick-star" class="btn-star-wish">
+            <span>💫 Petik Pesan Langit Malam Ini</span>
+          </button>
+          <p id="star-wish-output" class="star-wish-text">"Kamu adalah alasan aku selalu bersyukur setiap hari."</p>
+        </div>
+
+        <!-- Final Comfort Message & WhatsApp CTA -->
+        <div class="final-closing-box">
+          <p class="closing-message">
+            "Aku udah terima pilihanmu. Sekarang tutup matanya ya, pejamkan perlahan, dan biarkan rasa sakitnya pergi. Aku sayang banget sama kamu."
+          </p>
+          <div class="final-actions">
+            <button id="btn-send-wa" class="btn-whatsapp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              <span>Kirim Pilihanmu ke WhatsApp</span>
+            </button>
+            <button id="btn-replay" class="btn-ghost-small">
+              <span>🔄 Ulangi Pengalaman dari Awal</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SETTINGS MODAL (FOR THE BOYFRIEND TO CUSTOMIZE WA NUMBER & NAME) -->
+  <div id="settings-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>⚙️ Kustomisasi Pesan (Khusus Kamu)</h3>
+        <button id="btn-close-settings" class="btn-close-modal" aria-label="Tutup">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          Atur nama dan nomor WhatsApp kamu sebelum mengirimkan *link* web ini ke pacarmu. Semua pengaturan tersimpan otomatis!
+        </p>
+        
+        <div class="form-group">
+          <label for="input-wa">Nomor WhatsApp Kamu (awali 62):</label>
+          <input type="text" id="input-wa" placeholder="Contoh: 6281234567890">
+          <small>Agar tombol di halaman terakhir langsung mengirim pesan ke WhatsApp kamu.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="input-partner-name">Nama Pacarmu (Panggilan Sayang):</label>
+          <input type="text" id="input-partner-name" placeholder="Contoh: Cantikku / Sayang">
+        </div>
+
+        <div class="form-group">
+          <label for="input-sender-name">Nama Kamu (Pengirim):</label>
+          <input type="text" id="input-sender-name" placeholder="Contoh: Cowokmu">
+        </div>
+
+        <div class="form-group">
+          <label for="input-custom-note">Catatan Tambahan di Surat (Opsional):</label>
+          <textarea id="input-custom-note" rows="2" placeholder="Contoh: Maafin aku tadi sore ya sayang, aku janji besok jemput kamu lebih awal 🤍"></textarea>
+          <small>Akan ditampilkan langsung di dalam surat permintaan maaf.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Link Khusus untuk Dia:</label>
+          <div class="share-url-box">
+            <input type="text" id="share-url-input" readonly>
+            <button id="btn-copy-link" class="btn-secondary">Salin Link</button>
+          </div>
+          <small id="copy-feedback-text" class="copy-feedback"></small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-save-settings" class="btn-primary">Simpan & Terapkan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
