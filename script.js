@@ -7,6 +7,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // --- HARDCODED DEVELOPER CONFIG ---
   const WA_NUMBER = '6285742594985'; // 085742594985
+  const MAX_STARS = 10; // 10 Constellation Stars (5 taps each = 50 taps total)
 
   let currentStep = 1;
   let selectedCoupon = {
@@ -403,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (5 TAPS PER STAR MINI-GAME) ---
+  // --- STATE 4: THE NIGHT SKY (10 STARS MINI-GAME — 5 TAPS PER STAR) ---
   const skyCanvas = document.getElementById('sky-canvas');
   const starsStage = document.getElementById('stars-stage');
   let skyCtx = null;
@@ -416,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let shootingStars = [];
   let tapSparkles = [];
   let skyAnimId = null;
-  let skyTapCount = 0; // 5 taps per star node (15 total for 3 stars)
+  let skyTapCount = 0; // 5 taps per star node (up to MAX_STARS = 10)
 
   function initSkyCanvas() {
     if (!skyCanvas) return;
@@ -478,8 +479,8 @@ document.addEventListener('DOMContentLoaded', () => {
       skyCtx.stroke();
       skyCtx.setLineDash([]);
 
-      // Closing pink line if 3 or more stars
-      if (constellationNodes.length >= 3) {
+      // Closing pink line when all 10 stars are completed
+      if (constellationNodes.length >= MAX_STARS) {
         const first = constellationNodes[0];
         const last = constellationNodes[constellationNodes.length - 1];
         skyCtx.strokeStyle = 'rgba(255, 139, 167, 0.85)';
@@ -619,8 +620,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3. Increment tap counter & evaluate 5-tap rule
-    if (constellationNodes.length < 3) {
+    // 3. Increment tap counter & evaluate 5-tap rule up to MAX_STARS (10)
+    if (constellationNodes.length < MAX_STARS) {
       skyTapCount++;
 
       if (skyTapCount % 5 === 0) {
@@ -629,17 +630,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
 
         if (starCountNum) {
-          starCountNum.textContent = `⭐ ${constellationNodes.length} / 3`;
+          starCountNum.textContent = `⭐ ${constellationNodes.length} / ${MAX_STARS}`;
         }
 
-        if (constellationNodes.length === 1 && constellationStatusText) {
-          constellationStatusText.innerHTML = `🌟 Bintang ke-1 Bersinar! Sentuh 5x lagi untuk Bintang ke-2`;
+        if (constellationNodes.length < MAX_STARS && constellationStatusText) {
+          constellationStatusText.innerHTML = `🌟 Bintang ke-${constellationNodes.length} Bersinar! Sentuh 5x lagi untuk Bintang ke-${constellationNodes.length + 1}`;
           constellationStatusText.style.color = 'var(--accent-gold)';
-        } else if (constellationNodes.length === 2 && constellationStatusText) {
-          constellationStatusText.innerHTML = `🌟 Bintang ke-2 Terhubung! Sentuh 5x lagi untuk Bintang ke-3`;
-          constellationStatusText.style.color = 'var(--accent-gold)';
-        } else if (constellationNodes.length === 3 && constellationStatusText) {
-          constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Kita Terhubung Sempurna!`;
+        } else if (constellationNodes.length === MAX_STARS && constellationStatusText) {
+          constellationStatusText.innerHTML = `💖 Rasi ${MAX_STARS} Bintang Cinta Kita Terhubung Sempurna!`;
           constellationStatusText.style.color = 'var(--accent-gold)';
         }
       } else {
@@ -653,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navigator.vibrate) navigator.vibrate(12);
       }
     } else {
-      // Extra celebratory taps after constellation is finished
+      // Extra celebratory shooting stars after all 10 stars are completed
       if (navigator.vibrate) navigator.vibrate(12);
     }
   }
@@ -709,9 +707,9 @@ document.addEventListener('DOMContentLoaded', () => {
       shootingStars = [];
       tapSparkles = [];
       skyTapCount = 0;
-      if (starCountNum) starCountNum.textContent = '⭐ 0 / 3';
+      if (starCountNum) starCountNum.textContent = `⭐ 0 / ${MAX_STARS}`;
       if (constellationStatusText) {
-        constellationStatusText.textContent = '✨ Sentuh langit 5x untuk membentuk Bintang Pertama';
+        constellationStatusText.textContent = '✨ Sentuh langit 5x untuk membentuk Bintang ke-1 dari 10';
         constellationStatusText.style.color = 'var(--text-main)';
       }
       if (skyTouchPrompt) {
