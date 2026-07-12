@@ -97,7 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(initFogCanvas, 150);
     }
     if (targetStep === 4) {
-      setTimeout(initSkyCanvas, 150);
+      setTimeout(() => {
+        resizeSkyCanvas();
+      }, 100);
     }
   }
 
@@ -401,11 +403,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (HIGH-PERFORMANCE HTML5 CANVAS) ---
+  // --- STATE 4: THE NIGHT SKY (ROCK-SOLID GUARANTEED HTML5 CANVAS) ---
   const skyCanvas = document.getElementById('sky-canvas');
   let skyCtx = null;
   const constellationStatusText = document.getElementById('constellation-status-text');
   const starCountNum = document.getElementById('star-count-num');
+  const skyTouchPrompt = document.getElementById('sky-touch-prompt');
   
   let skyStars = [];
   let constellationNodes = [];
@@ -415,11 +418,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function resizeSkyCanvas() {
     if (!skyCanvas) return;
     const stage = document.getElementById('stars-stage');
-    if (!stage) return;
-    const rect = stage.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-    skyCanvas.width = rect.width * dpr;
-    skyCanvas.height = rect.height * dpr;
+    const width = (stage ? stage.clientWidth : 360) || 360;
+    const height = (stage ? stage.clientHeight : 250) || 250;
+
+    skyCanvas.width = width * dpr;
+    skyCanvas.height = height * dpr;
     if (skyCtx) skyCtx.scale(dpr, dpr);
   }
 
@@ -429,14 +433,16 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeSkyCanvas();
 
     skyStars = [];
-    const rect = skyCanvas.getBoundingClientRect();
-    for (let i = 0; i < 45; i++) {
+    const width = skyCanvas.width / (window.devicePixelRatio || 1);
+    const height = skyCanvas.height / (window.devicePixelRatio || 1);
+
+    for (let i = 0; i < 55; i++) {
       skyStars.push({
-        x: Math.random() * rect.width,
-        y: Math.random() * rect.height,
-        r: Math.random() * 1.5 + 0.5,
-        alpha: Math.random() * 0.7 + 0.2,
-        dAlpha: (Math.random() * 0.015 + 0.005) * (Math.random() < 0.5 ? 1 : -1)
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.6 + 0.5,
+        alpha: Math.random() * 0.7 + 0.25,
+        dAlpha: (Math.random() * 0.018 + 0.005) * (Math.random() < 0.5 ? 1 : -1)
       });
     }
 
@@ -447,16 +453,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function animateSky() {
     if (!skyCtx || !skyCanvas) return;
-    const rect = skyCanvas.getBoundingClientRect();
-    skyCtx.clearRect(0, 0, rect.width, rect.height);
+    const dpr = window.devicePixelRatio || 1;
+    const width = skyCanvas.width / dpr;
+    const height = skyCanvas.height / dpr;
+
+    skyCtx.clearRect(0, 0, width, height);
 
     // 1. Draw twinkling background stars
     for (let s of skyStars) {
       s.alpha += s.dAlpha;
-      if (s.alpha > 0.85 || s.alpha < 0.15) s.dAlpha *= -1;
+      if (s.alpha > 0.88 || s.alpha < 0.15) s.dAlpha *= -1;
       skyCtx.beginPath();
       skyCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      skyCtx.fillStyle = `rgba(180, 215, 255, ${s.alpha})`;
+      skyCtx.fillStyle = `rgba(185, 220, 255, ${s.alpha})`;
       skyCtx.fill();
     }
 
@@ -478,8 +487,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (constellationNodes.length >= 3) {
         const first = constellationNodes[0];
         const last = constellationNodes[constellationNodes.length - 1];
-        skyCtx.strokeStyle = 'rgba(255, 139, 167, 0.8)';
-        skyCtx.lineWidth = 2;
+        skyCtx.strokeStyle = 'rgba(255, 139, 167, 0.85)';
+        skyCtx.lineWidth = 2.2;
         skyCtx.beginPath();
         skyCtx.moveTo(last.x, last.y);
         skyCtx.lineTo(first.x, first.y);
@@ -551,16 +560,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const x = touch.clientX - rect.left;
     const y = touch.clientY - rect.top;
 
-    // Add falling shooting star (falls DOWN diagonal right)
+    if (skyTouchPrompt) {
+      skyTouchPrompt.style.opacity = '0';
+    }
+
     shootingStars.push({
       x: x,
       y: y,
       vx: 4.5,
-      vy: 4.5, // Positive Y = FALLS DOWN!
+      vy: 4.5,
       alpha: 1.0
     });
 
-    // Add constellation node
     constellationNodes.push({ x, y, pulse: 0 });
 
     if (starCountNum) {
@@ -581,6 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       handleSkyTap(e);
     }, { passive: false });
+    
+    // Initialize immediately so it is NEVER empty
+    initSkyCanvas();
   }
 
   // Star Wish Quote Generator
@@ -625,6 +639,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (constellationStatusText) {
         constellationStatusText.textContent = '✨ Sentuh langit 3x untuk merangkai rasi kita';
         constellationStatusText.style.color = 'var(--text-main)';
+      }
+      if (skyTouchPrompt) {
+        skyTouchPrompt.style.opacity = '1';
       }
       goToState(1);
     });

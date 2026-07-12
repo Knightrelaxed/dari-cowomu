@@ -251,7 +251,7 @@
       </div>
     </section>
 
-    <!-- STATE 4: THE NIGHT SKY (FINAL CONSTELLATION & WHATSAPP SEND) -->
+    <!-- STATE 4: THE NIGHT SKY (UNIFIED NIGHT SKY WINDOW WITH EXPLICIT HEIGHT) -->
     <section id="state-4" class="state-screen">
       <div class="state-content sky-content">
         <div class="badge-tag">
@@ -274,15 +274,19 @@
           </div>
         </div>
 
-        <!-- Top status bar ABOVE the canvas so it NEVER blocks the canvas -->
-        <div class="sky-status-bar">
-          <span id="constellation-status-text">✨ Sentuh langit 3x untuk merangkai rasi kita</span>
-          <span class="star-count-badge" id="star-count-num">0 / 3</span>
-        </div>
+        <!-- UNIFIED NIGHT SKY WINDOW (STATUS BAR ABOVE + EXPLICIT 260px TALL STAGE) -->
+        <div class="night-sky-window">
+          <div class="sky-status-bar">
+            <span id="constellation-status-text">✨ Sentuh langit 3x untuk merangkai rasi kita</span>
+            <span class="star-count-badge" id="star-count-num">0 / 3</span>
+          </div>
 
-        <!-- Real HTML5 Canvas for Interactive Night Sky Stage -->
-        <div class="stars-interaction-stage" id="stars-stage">
-          <canvas id="sky-canvas"></canvas>
+          <div class="stars-interaction-stage" id="stars-stage">
+            <canvas id="sky-canvas"></canvas>
+            <div class="sky-touch-prompt" id="sky-touch-prompt">
+              <span>👆 Sentuh / Ketuk Langit Malam Ini 3 Kali</span>
+            </div>
+          </div>
         </div>
 
         <!-- Sweet Star Quote Generator -->

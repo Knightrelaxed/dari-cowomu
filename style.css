@@ -771,7 +771,7 @@ body {
 }
 
 /* ==========================================================================
-   STATE 4: THE NIGHT SKY (CANVAS WITH TOP TEXT BAR)
+   STATE 4: UNIFIED NIGHT SKY WINDOW (ALWAYS VISIBLE & ROCK-SOLID HEIGHT)
    ========================================================================== */
 .selected-coupon-display {
   width: 100%;
@@ -780,7 +780,7 @@ body {
   border: 1px solid rgba(244, 211, 94, 0.35);
   border-radius: 16px;
   padding: 0.85rem 1.1rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.9rem;
   text-align: left;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -821,21 +821,35 @@ body {
   border-radius: 4px;
 }
 
+/* UNIFIED NIGHT SKY BOX */
+.night-sky-window {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  border: 1px solid rgba(72, 202, 228, 0.45);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(72, 202, 228, 0.18);
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+  background: #040816;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Status Bar OUTSIDE & ABOVE the canvas */
 .sky-status-bar {
   width: 100%;
-  max-width: 400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(8, 14, 36, 0.95);
-  border: 1px solid rgba(72, 202, 228, 0.35);
+  background: rgba(12, 22, 48, 0.96);
   padding: 10px 14px;
-  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid rgba(72, 202, 228, 0.28);
   font-size: 0.78rem;
   font-weight: 500;
   color: var(--text-main);
-  border-bottom: none;
+  z-index: 5;
 }
 
 .star-count-badge {
@@ -847,20 +861,19 @@ body {
   font-size: 0.75rem;
 }
 
-/* Real HTML5 Canvas Stage */
+/* GUARANTEED EXPLICIT 250px TALL STAGE */
 .stars-interaction-stage {
   position: relative;
   width: 100%;
-  max-width: 400px;
-  height: 220px;
-  border-radius: 0 0 18px 18px;
-  background: #050918;
-  border: 1px solid rgba(72, 202, 228, 0.35);
-  box-shadow: 
-    0 14px 35px rgba(0, 0, 0, 0.75),
-    inset 0 0 45px rgba(0, 0, 0, 0.85);
+  height: 250px;
+  min-height: 250px;
+  max-height: 250px;
+  background: 
+    radial-gradient(circle at 50% 20%, rgba(35, 75, 150, 0.35) 0%, transparent 75%),
+    linear-gradient(180deg, #060B1C 0%, #030611 100%);
   overflow: hidden;
-  margin-bottom: 1.1rem;
+  cursor: pointer;
+  display: block;
 }
 
 #sky-canvas {
@@ -869,6 +882,25 @@ body {
   display: block;
   cursor: pointer;
   touch-action: none;
+}
+
+/* Non-blocking subtle hint floating inside bottom of canvas */
+.sky-touch-prompt {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8, 14, 36, 0.85);
+  border: 1px solid rgba(244, 211, 94, 0.35);
+  color: var(--accent-gold);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 99px;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  white-space: nowrap;
+  z-index: 3;
 }
 
 .star-wish-box {
