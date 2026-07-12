@@ -1,6 +1,6 @@
 /**
  * ==========================================================================
- * MIDNIGHT APOLOGY — THE ULTIMATE ROMANTIC EDITION (LOGIC & INTERACTIVITY)
+ * MIDNIGHT APOLOGY — iPHONE & iOS OPTIMIZED ULTIMATE ROMANTIC EDITION
  * ==========================================================================
  */
 
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     config.waNumber = params.get('wa') || localStorage.getItem('apology_wa_number') || '6281234567890';
     config.customNote = params.get('note') || localStorage.getItem('apology_custom_note') || '';
 
-    // Update UI text
     const displayGreeting = document.getElementById('display-greeting');
     if (displayGreeting) {
       displayGreeting.innerHTML = `Halo ${escapeHTML(config.partnerName)}, <br><span class="accent-text">Tarik Napas Sebentar Ya...</span>`;
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Populate Settings Modal Inputs
     const inputWa = document.getElementById('input-wa');
     const inputPartner = document.getElementById('input-partner-name');
     const inputSender = document.getElementById('input-sender-name');
@@ -84,25 +82,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadConfig();
 
-  // --- AMBIENT COSMIC BACKGROUND CANVAS ---
+  // --- AMBIENT COSMIC BACKGROUND CANVAS (Retina DPI Optimized) ---
   const ambientCanvas = document.getElementById('ambient-canvas');
   const ambientCtx = ambientCanvas.getContext('2d');
   let ambientParticles = [];
 
   function resizeAmbientCanvas() {
-    ambientCanvas.width = window.innerWidth;
-    ambientCanvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    ambientCanvas.width = window.innerWidth * dpr;
+    ambientCanvas.height = window.innerHeight * dpr;
+    ambientCtx.scale(dpr, dpr);
     initAmbientParticles();
   }
 
   function initAmbientParticles() {
     ambientParticles = [];
-    const count = Math.floor((ambientCanvas.width * ambientCanvas.height) / 10000);
-    for (let i = 0; i < Math.min(count, 90); i++) {
+    const count = Math.floor((window.innerWidth * window.innerHeight) / 11000);
+    for (let i = 0; i < Math.min(count, 85); i++) {
       ambientParticles.push({
-        x: Math.random() * ambientCanvas.width,
-        y: Math.random() * ambientCanvas.height,
-        radius: Math.random() * 1.8 + 0.5,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 1.6 + 0.6,
         alpha: Math.random() * 0.7 + 0.2,
         speedAlpha: (Math.random() * 0.015 + 0.005) * (Math.random() < 0.5 ? 1 : -1),
         vy: -Math.random() * 0.25 - 0.05
@@ -111,10 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function animateAmbient() {
-    ambientCtx.clearRect(0, 0, ambientCanvas.width, ambientCanvas.height);
+    ambientCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     for (let p of ambientParticles) {
       p.y += p.vy;
-      if (p.y < 0) p.y = ambientCanvas.height;
+      if (p.y < 0) p.y = window.innerHeight;
       p.alpha += p.speedAlpha;
       if (p.alpha > 0.85) p.speedAlpha *= -1;
       if (p.alpha < 0.15) p.speedAlpha *= -1;
@@ -138,16 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function goToState(targetStep) {
     if (targetStep === currentStep) return;
     
-    // Hide current screen
     screens.forEach(s => s.classList.remove('active'));
     
-    // Show target screen
     const targetScreen = document.getElementById(`state-${targetStep}`);
     if (targetScreen) {
       targetScreen.classList.add('active');
     }
 
-    // Update dots
     stepDots.forEach(dot => {
       const stepNum = parseInt(dot.getAttribute('data-step'), 10);
       dot.classList.remove('active', 'completed');
@@ -160,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     currentStep = targetStep;
 
-    // Trigger state-specific initialization if needed
     if (targetStep === 2) {
       setTimeout(initFogCanvas, 150);
     }
@@ -226,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cycleIdx = Math.min(2, completedCycles);
 
     if (phaseElapsed < INHALE_MS) {
-      // Inhale phase
       breatheOrb.classList.add('inhaling');
       breatheOrb.classList.remove('exhaling');
       const secondsLeft = Math.ceil((INHALE_MS - phaseElapsed) / 1000);
@@ -234,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
       breatheInstruction.textContent = `${secondsLeft} detik perlahan`;
       if (quoteText && inhaleQuotes[cycleIdx]) quoteText.textContent = inhaleQuotes[cycleIdx];
     } else {
-      // Exhale phase
       breatheOrb.classList.remove('inhaling');
       breatheOrb.classList.add('exhaling');
       const secondsLeft = Math.ceil((CYCLE_TOTAL_MS - phaseElapsed) / 1000);
@@ -243,11 +237,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (quoteText && exhaleQuotes[cycleIdx]) quoteText.textContent = exhaleQuotes[cycleIdx];
     }
 
-    // Update Progress SVG ring
     const offset = CIRCUMFERENCE - (cycleProgress * CIRCUMFERENCE);
     orbProgressCircle.style.strokeDashoffset = offset;
 
-    // Check if one full cycle completed
     const currentTotalCycles = Math.floor(elapsed / CYCLE_TOTAL_MS);
     if (currentTotalCycles > completedCycles && completedCycles < 3) {
       completedCycles = currentTotalCycles;
@@ -264,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         goToState(2);
-      }, 1300);
+      }, 1200);
       return;
     }
 
@@ -314,19 +306,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function initFogCanvas() {
     if (!fogCanvas || !fogWrapper || fogCleared) return;
     const rect = fogWrapper.getBoundingClientRect();
-    fogCanvas.width = rect.width;
-    fogCanvas.height = rect.height;
+    const dpr = window.devicePixelRatio || 1;
+    fogCanvas.width = rect.width * dpr;
+    fogCanvas.height = rect.height * dpr;
     fogCtx = fogCanvas.getContext('2d');
+    fogCtx.scale(dpr, dpr);
 
     // Draw frosted foggy texture
     fogCtx.fillStyle = 'rgba(145, 175, 215, 0.9)';
-    fogCtx.fillRect(0, 0, fogCanvas.width, fogCanvas.height);
+    fogCtx.fillRect(0, 0, rect.width, rect.height);
 
     // Add subtle water droplets
     fogCtx.fillStyle = 'rgba(230, 245, 255, 0.45)';
     for (let i = 0; i < 110; i++) {
-      const x = Math.random() * fogCanvas.width;
-      const y = Math.random() * fogCanvas.height;
+      const x = Math.random() * rect.width;
+      const y = Math.random() * rect.height;
       const r = Math.random() * 4 + 1;
       fogCtx.beginPath();
       fogCtx.arc(x, y, r, 0, Math.PI * 2);
@@ -346,21 +340,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function eraseFogAt(x, y) {
     if (!fogCtx || fogCleared) return;
     fogCtx.globalCompositeOperation = 'destination-out';
-    const grad = fogCtx.createRadialGradient(x, y, 6, x, y, 45);
+    const grad = fogCtx.createRadialGradient(x, y, 6, x, y, 46);
     grad.addColorStop(0, 'rgba(0, 0, 0, 1)');
-    grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.8)');
+    grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.85)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
     fogCtx.fillStyle = grad;
     fogCtx.beginPath();
-    fogCtx.arc(x, y, 45, 0, Math.PI * 2);
+    fogCtx.arc(x, y, 46, 0, Math.PI * 2);
     fogCtx.fill();
   }
 
   let lastCheckTime = 0;
   function checkWipedPercentage() {
     const now = performance.now();
-    if (now - lastCheckTime < 250) return;
+    if (now - lastCheckTime < 220) return;
     lastCheckTime = now;
 
     if (!fogCtx || fogCleared) return;
@@ -378,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const percentage = Math.min(100, Math.floor((transparentCount / (totalPixels / 4)) * 100));
     if (wipeFill) wipeFill.style.width = `${percentage}%`;
 
-    if (percentage > 52) {
+    if (percentage > 50) {
       clearAllFog();
     }
   }
@@ -397,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fogActionRow.style.opacity = '1';
         fogActionRow.style.pointerEvents = 'auto';
       }
-    }, 700);
+    }, 650);
   }
 
   if (fogCanvas) {
@@ -441,27 +435,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const couponFeedback = document.getElementById('coupon-feedback');
 
   couponCards.forEach(card => {
-    // 3D Tilt Effect on Desktop
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const rotateX = (-y / 12).toFixed(2);
-      const rotateY = (x / 12).toFixed(2);
-      const inner = card.querySelector('.coupon-inner');
-      if (inner) {
-        inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      }
-    });
-
-    card.addEventListener('mouseleave', () => {
-      const inner = card.querySelector('.coupon-inner');
-      if (inner) {
-        inner.style.transform = `rotateX(0deg) rotateY(0deg)`;
-      }
-    });
-
-    // Selection Click Handler
     card.addEventListener('click', () => {
       couponCards.forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
@@ -474,7 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
         couponFeedback.innerHTML = `<p style="color: var(--primary);">Kupon terpilih: <strong>${escapeHTML(selectedCoupon.title)}</strong> ✨</p>`;
       }
 
-      // Update State 4 summary display
       const chosenTitle = document.getElementById('chosen-title');
       const chosenCode = document.getElementById('chosen-code');
       if (chosenTitle) chosenTitle.textContent = selectedCoupon.title;
@@ -484,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         goToState(4);
-      }, 700);
+      }, 650);
     });
   });
 
@@ -505,14 +477,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Create Shooting Star
     const star = document.createElement('div');
     star.className = 'shooting-star';
     star.style.left = `${x}px`;
     star.style.top = `${y}px`;
     starsStage.appendChild(star);
 
-    // Create Placed Constellation Star
     const node = document.createElement('div');
     node.className = 'constellation-star';
     node.style.left = `${x}px`;
@@ -521,7 +491,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     constellationPoints.push({ x, y });
 
-    // Draw Constellation Line if >= 2 points
     if (constellationPoints.length > 1) {
       drawConstellationLines();
     }
@@ -560,7 +529,6 @@ document.addEventListener('DOMContentLoaded', () => {
       svg.appendChild(line);
     }
 
-    // Connect last to first if >= 3
     if (constellationPoints.length >= 3) {
       const pFirst = constellationPoints[0];
       const pLast = constellationPoints[constellationPoints.length - 1];
@@ -582,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '"Kamu adalah satu-satunya rumah terindah untuk pulang."',
     '"Aku janji akan lebih peka dan selalu ada saat kamu butuh."',
     '"Senyummu selalu jadi penyemangat terbesarku setiap hari."',
-    '"Ngeri perutmu biar aku yang doain hilang malam ini ya sayangku."',
+    '"Nyeri perutmu biar aku yang doain hilang malam ini ya sayangku."',
     '"Kamu perempuan terkuat, tercantik, dan paling berharga buatku."'
   ];
 
@@ -698,7 +666,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Step Indicators click to navigate
   stepDots.forEach(dot => {
     dot.addEventListener('click', () => {
       const step = parseInt(dot.getAttribute('data-step'), 10);

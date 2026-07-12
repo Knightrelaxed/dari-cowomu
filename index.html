@@ -2,10 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Midnight Apology — Untuk Kamu yang Paling Berharga</title>
   <meta name="description" content="Sebuah ruang tenang untuk meredakan rasa sakit dan overthinking malam ini.">
   
+  <!-- Apple iOS Web App & Status Bar Styling -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#030611">
+
   <!-- Google Fonts: Plus Jakarta Sans, Outfit, Playfair Display & Great Vibes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +22,7 @@
   <!-- Ambient Cosmic Background Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
-  <!-- Navigation / Step Indicator -->
+  <!-- Navigation / Step Indicator (Supports iPhone Notch & Dynamic Island) -->
   <header class="app-header">
     <div class="header-left">
       <span class="brand-badge">✨ Celestial Love</span>
