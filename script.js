@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
     '"Satu napas lagi, lepaskan semua sesak di dadamu..."'
   ];
   const exhaleQuotes = [
-    '"Hembuskan rasa cemas dan overthinkingmu pelan-pelan..."',
-    '"Biar aku yang memeluk erat semua bebanmu malam ini..."',
+    '"Hembuskan rasa cemas dan kesalmu pelan-pelan..."',
+    '"Biar aku yang memeluk erat dan bujuk kamu malam ini..."',
     '"Rileks... kamu berhak tenang dan bahagia..."'
   ];
 
@@ -482,11 +482,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnPickStar = document.getElementById('btn-pick-star');
   const starWishOutput = document.getElementById('star-wish-output');
   const romanticWishes = [
+    '"Maafin aku yang kurang inisiatif ya sayang, aku janji bakal lebih peka."',
+    '"Mulai sekarang, tiap kamu ngambek, aku yang akan pertama datang buat bujuk kamu."',
     '"Kamu adalah satu-satunya rumah terindah untuk pulang."',
-    '"Aku janji akan lebih peka dan selalu ada saat kamu butuh."',
     '"Senyummu selalu jadi penyemangat terbesarku setiap hari."',
-    '"Semoga semua gelisah di kepalamu berubah jadi ketenangan malam ini, sayangku."',
-    '"Kamu perempuan terkuat, tercantik, dan paling berharga buatku."'
+    '"Kamu berhak dapet perhatian penuh dan kelembutan dariku setiap hari."'
   ];
 
   if (btnPickStar && starWishOutput) {
@@ -504,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSendWa = document.getElementById('btn-send-wa');
   if (btnSendWa) {
     btnSendWa.addEventListener('click', () => {
-      const message = `Halo sayang, aku udah buka web permintaan maaf dari kamu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah selalu peduli dan nenangin pikiranku malam ini. Aku sayang kamu!`;
+      const message = `Halo sayang, aku udah baca surat permintaan maafmu 🥺💖\n\nAku pilih kupon ini:\n🎁 *${selectedCoupon.title}*\n🔑 Kode: ${selectedCoupon.code}\n📝 "${selectedCoupon.desc}"\n\nMakasih ya udah mau minta maaf dan janji bakal lebih peka & inisiatif bujuk aku pas ngambek. Aku sayang kamu!`;
       
       const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
