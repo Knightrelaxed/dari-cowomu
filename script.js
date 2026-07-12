@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- STATE 4: THE NIGHT SKY (GUARANTEED 100% VISIBLE & RESPONSIVE HTML5 CANVAS) ---
+  // --- STATE 4: THE NIGHT SKY (GUARANTEED ANDROID CHROME & iOS COMPATIBLE CANVAS) ---
   const skyCanvas = document.getElementById('sky-canvas');
   const starsStage = document.getElementById('stars-stage');
   let skyCtx = null;
@@ -546,13 +546,30 @@ document.addEventListener('DOMContentLoaded', () => {
     skyAnimId = requestAnimationFrame(animateSky);
   }
 
+  let lastTapTime = 0;
   function handleSkyTap(e) {
     if (!skyCanvas) return;
+    const now = performance.now();
+    if (now - lastTapTime < 180) return; // Debounce Android double touch/click events
+    lastTapTime = now;
+
     const stage = document.getElementById('stars-stage');
     const rect = (stage || skyCanvas).getBoundingClientRect();
-    const touch = e.touches ? e.touches[0] : e;
-    const x = Math.max(10, Math.min(rect.width - 10, touch.clientX - rect.left));
-    const y = Math.max(10, Math.min(rect.height - 10, touch.clientY - rect.top));
+    
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+      clientX = e.changedTouches[0].clientX;
+      clientY = e.changedTouches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    const x = Math.max(10, Math.min(rect.width - 10, clientX - rect.left));
+    const y = Math.max(10, Math.min(rect.height - 10, clientY - rect.top));
 
     if (skyTouchPrompt) {
       skyTouchPrompt.style.opacity = '0';
@@ -580,19 +597,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navigator.vibrate) navigator.vibrate(15);
   }
 
-  if (starsStage) {
-    starsStage.addEventListener('click', handleSkyTap);
-    starsStage.addEventListener('touchstart', (e) => {
+  const targets = [starsStage, skyCanvas].filter(Boolean);
+  targets.forEach(el => {
+    el.addEventListener('click', handleSkyTap);
+    el.addEventListener('touchstart', (e) => {
       e.preventDefault();
       handleSkyTap(e);
     }, { passive: false });
-  } else if (skyCanvas) {
-    skyCanvas.addEventListener('click', handleSkyTap);
-    skyCanvas.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      handleSkyTap(e);
-    }, { passive: false });
-  }
+  });
 
   initSkyCanvas();
 
