@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- STATE 4: THE NIGHT SKY ---
   const starsStage = document.getElementById('stars-stage');
-  const constellationPrompt = document.getElementById('constellation-prompt');
+  const constellationStatusText = document.getElementById('constellation-status-text');
   const starCountNum = document.getElementById('star-count-num');
   let constellationPoints = [];
 
@@ -428,17 +428,16 @@ document.addEventListener('DOMContentLoaded', () => {
     constellationPoints.push({ x, y });
 
     if (starCountNum) {
-      starCountNum.textContent = Math.min(3, constellationPoints.length);
+      starCountNum.textContent = `${Math.min(3, constellationPoints.length)} / 3`;
     }
 
     if (constellationPoints.length > 1) {
       drawConstellationLines();
     }
 
-    if (constellationPoints.length >= 3 && constellationPrompt) {
-      constellationPrompt.innerHTML = `<span>💖 Rasi Bintang Cinta Kita Telah Terhubung Sempurna!</span>`;
-      constellationPrompt.style.background = 'linear-gradient(135deg, rgba(244, 211, 94, 0.25), rgba(255, 139, 167, 0.25))';
-      constellationPrompt.style.borderColor = 'var(--accent-gold)';
+    if (constellationPoints.length >= 3 && constellationStatusText) {
+      constellationStatusText.innerHTML = `💖 Rasi Bintang Cinta Terhubung Sempurna!`;
+      constellationStatusText.style.color = 'var(--accent-gold)';
     }
 
     if (navigator.vibrate) navigator.vibrate(15);
@@ -465,8 +464,8 @@ document.addEventListener('DOMContentLoaded', () => {
       line.setAttribute('y1', p1.y);
       line.setAttribute('x2', p2.x);
       line.setAttribute('y2', p2.y);
-      line.setAttribute('stroke', 'rgba(244, 211, 94, 0.65)');
-      line.setAttribute('stroke-width', '1.8');
+      line.setAttribute('stroke', 'rgba(244, 211, 94, 0.7)');
+      line.setAttribute('stroke-width', '2');
       line.setAttribute('stroke-dasharray', '4 2');
       svg.appendChild(line);
     }
@@ -479,8 +478,8 @@ document.addEventListener('DOMContentLoaded', () => {
       line.setAttribute('y1', pLast.y);
       line.setAttribute('x2', pFirst.x);
       line.setAttribute('y2', pFirst.y);
-      line.setAttribute('stroke', 'rgba(255, 139, 167, 0.65)');
-      line.setAttribute('stroke-width', '1.8');
+      line.setAttribute('stroke', 'rgba(255, 139, 167, 0.7)');
+      line.setAttribute('stroke-width', '2');
       svg.appendChild(line);
     }
   }
@@ -526,6 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (svg) svg.innerHTML = '';
       const existingStars = starsStage ? starsStage.querySelectorAll('.constellation-star') : [];
       existingStars.forEach(s => s.remove());
+      if (starCountNum) starCountNum.textContent = '0 / 3';
+      if (constellationStatusText) {
+        constellationStatusText.textContent = '✨ Sentuh langit 3x untuk merangkai rasi kita';
+        constellationStatusText.style.color = 'var(--text-main)';
+      }
       goToState(1);
     });
   }

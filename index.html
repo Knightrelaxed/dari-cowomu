@@ -259,7 +259,7 @@
         </div>
         <h2 class="section-title">Sentuh Langitnya, Lukis Rasi Cintamu</h2>
         <p class="section-subtitle">
-          Sentuh / ketuk kotak langit malam di bawah ini 3 kali untuk memunculkan bintang jatuh & menyusun rasi cinta kita.
+          Sentuh langit malam di bawah ini untuk menerbangkan bintang jatuh & melukis rasi cinta kita.
         </p>
 
         <!-- Selected Coupon Summary Badge -->
@@ -274,21 +274,15 @@
           </div>
         </div>
 
-        <!-- Interactive Constellation Star Stage (OBVIOUS & GORGEOUS) -->
+        <!-- Top status bar outside the canvas so it never blocks the star lines -->
+        <div class="sky-status-bar">
+          <span id="constellation-status-text">✨ Sentuh langit 3x untuk merangkai rasi kita</span>
+          <span class="star-count-badge" id="star-count-num">0 / 3</span>
+        </div>
+
+        <!-- Completely UNOBSTRUCTED Interactive Night Sky Stage -->
         <div class="stars-interaction-stage" id="stars-stage" role="button" aria-label="Sentuh di sini untuk merangkai rasi bintang">
-          <div class="stars-stage-header">
-            <span class="stars-badge">🌠 KOTAK INTERAKTIF LANGIT MALAM</span>
-          </div>
-
-          <!-- Pulsing instruction pill inside the starry canvas box -->
-          <div class="constellation-prompt" id="constellation-prompt">
-            <span class="pulse-star-icon">👆</span>
-            <span>Sentuh Di Sini 3 Kali Untuk Merangkai Rasi Bintang ✨</span>
-          </div>
-
-          <div class="constellation-counter" id="constellation-counter">
-            <span>Bintang Terhubung: <strong id="star-count-num">0</strong> / 3</span>
-          </div>
+          <!-- Background faint celestial stars inside canvas -->
         </div>
 
         <!-- Sweet Star Quote Generator -->
